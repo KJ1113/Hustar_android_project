@@ -9,9 +9,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -26,15 +32,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private GpsTracker gpsTracker;
     MapView mapView;
-
 
     @SuppressLint("ServiceCast")
     @Override
@@ -42,23 +52,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mapView = new MapView(this);
+        gpsTracker = new GpsTracker(MainActivity.this);
+
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
         call_Permissson();
         cur_pos();
         prepArray();
-        Toast.makeText(MainActivity.this, "킄쿠 ", Toast.LENGTH_LONG).show();
     }
 
     public void cur_pos() {
-        gpsTracker = new GpsTracker(MainActivity.this);
+
         double latitude = gpsTracker.getLatitude();
         double longitude = gpsTracker.getLongitude();
         Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
 
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-        mapView.setMapCenterPoint(mapPoint, true);
         MapPOIItem marker = new MapPOIItem();
+        mapView.setMapCenterPoint(mapPoint, true);
+        marker.setItemName("현재위치");
+        marker.setTag(0);
+        marker.setMapPoint(mapPoint);
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        mapView.addPOIItem(marker);
+
+        mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+        marker = new MapPOIItem();
+        mapView.setMapCenterPoint(mapPoint, true);
         marker.setItemName("현재위치");
         marker.setTag(0);
         marker.setMapPoint(mapPoint);
@@ -97,15 +118,22 @@ public class MainActivity extends AppCompatActivity {
                             1);
                 }
             }
-            File csvfile = new File(Environment.getExternalStorageDirectory() + "/BankStandard_data.csv");
-            //String csvfileString = this.getApplicationInfo().dataDir + File.separatorChar + "BankStandard_data.csv";
-            //File csvfile = new File(csvfileString);
-            CSVReader reader = new CSVReader(new FileReader(csvfile));
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                // nextLine[] is an array of values from the line
-                //System.out.println(nextLine[0] + nextLine[1] + "etc...");
-            }
+
+            AssetManager am = getResources().getAssets() ;
+            InputStream csvStream = am.open("BankStandard_data.csv");
+            //Toast.makeText(this, "공공데이터를 불러오는중..", Toast.LENGTH_SHORT).show();
+
+            InputStreamReader reader = new InputStreamReader(csvStream, Charset.forName("UTF-8"));
+            List<String[]> csv = new CSVReader(reader).readAll();
+            //Toast.makeText(this, "공공데이터를 업로드중..", Toast.LENGTH_SHORT).show();
+
+
+            Toast.makeText(this, csv.get(1)[8]+" "+csv.get(1)[9], Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, csv.get(2)[8]+" "+csv.get(2)[9], Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, csv.get(3)[8]+" "+csv.get(3)[9], Toast.LENGTH_SHORT).show();
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "The specified file was not found", Toast.LENGTH_SHORT).show();
