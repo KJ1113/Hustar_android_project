@@ -2,21 +2,30 @@ package com.example.a0708_kakaotest;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.a0708_kakaotest.Android_Class.GpsTracker;
+import com.opencsv.CSVReader;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         mapViewContainer.addView(mapView);
         call_Permissson();
         cur_pos();
+        prepArray();
+        Toast.makeText(MainActivity.this, "킄쿠 ", Toast.LENGTH_LONG).show();
     }
 
     public void cur_pos() {
@@ -73,5 +84,31 @@ public class MainActivity extends AppCompatActivity {
     }
     public static void doRestart(Activity anyActivity) {
         anyActivity.startActivity(new Intent(anyActivity.getApplicationContext(), MainActivity.class));
+    }
+
+
+    private void prepArray() {
+        try {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            1);
+                }
+            }
+            File csvfile = new File(Environment.getExternalStorageDirectory() + "/BankStandard_data.csv");
+            //String csvfileString = this.getApplicationInfo().dataDir + File.separatorChar + "BankStandard_data.csv";
+            //File csvfile = new File(csvfileString);
+            CSVReader reader = new CSVReader(new FileReader(csvfile));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                // nextLine[] is an array of values from the line
+                //System.out.println(nextLine[0] + nextLine[1] + "etc...");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "The specified file was not found", Toast.LENGTH_SHORT).show();
+        }
     }
 }
