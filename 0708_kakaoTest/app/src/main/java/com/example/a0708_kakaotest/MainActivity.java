@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frameLayout, menuFragment).commit();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
+
+
+        // ㅋㅋㅋㅋㅋㅋㅋㅋㅋ
     }
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener{
         @Override
