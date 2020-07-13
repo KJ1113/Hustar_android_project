@@ -56,5 +56,6 @@ public class MenuFragment extends Fragment {
         public int getCount() {
             return mFragmentList.size() ;
         }
+        //브런치테스트
     }
 }
