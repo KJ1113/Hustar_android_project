@@ -24,8 +24,8 @@ public class Use_ToFragment extends Fragment {
         return view;
     }
     public void map_init(){
-        //mapView = new MapView(getActivity());
-        //ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        //mapViewContainer.addView(mapView);
+        mapView = new MapView(getActivity());
+        ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
+        mapViewContainer.addView(mapView);
     }
 }

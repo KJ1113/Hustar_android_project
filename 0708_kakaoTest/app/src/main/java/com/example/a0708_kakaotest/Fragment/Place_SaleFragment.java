@@ -27,21 +27,17 @@ public class Place_SaleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_use_to, container, false);
-        //this.map_init();
+        this.map_init();
         return view;
     }
     public void map_init(){
 
-        //mapView = new MapView(getActivity());
-        //ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        //mapViewContainer.addView(mapView);
         mapView = new MapView(getActivity());
         mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
         ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
         cur_pos();
         input_mapMaker(10);
-        //add_maker(35.21200140096,128.588723077959);
     }
     public void cur_pos() {
         double latitude = getGPS().getLatitude();
