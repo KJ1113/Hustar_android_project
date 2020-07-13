@@ -23,12 +23,6 @@
         </LinearLayout>
 
 
-        <com.example.a0708_kakaotest.Fragment.MeasuredViewPager
-            android:layout_width = "match_parent"
-            android:layout_height= "wrap_content"
-            tools:ignore="MissingClass" />
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

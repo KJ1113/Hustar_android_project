@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a0708_kakaotest.R;
 
@@ -27,18 +28,20 @@ public class OnNuri_Map extends MapView {
     }
     public void input_mapMaker(){
         maplist = get_bankData();
-        for(int i = 1 ; i < 50; i++){
+        for(int i = 1 ; i < 80; i++){
             add_maker( Double.parseDouble( maplist.get(i)[9]),Double.parseDouble(maplist.get(i)[8]), maplist.get(i)[4] );
         }
     }
     public void cur_pos() {
-        double latitude = getGPS().getLatitude();
-        double longitude = getGPS().getLongitude();
+        getGPS().getLocation();
+        double latitude =   getGPS().getLatitude();
+        double longitude =  getGPS().getLongitude();
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
         MapPOIItem marker = new MapPOIItem();
         this.setMapCenterPoint(mapPoint, true);
         this.setZoomLevel(1, true);
         marker.setItemName("현재위치");
+        Toast.makeText(ac, latitude + " "+ longitude ,Toast.LENGTH_SHORT).show();
         marker.setTag(0);
 
         marker.setMapPoint(mapPoint);

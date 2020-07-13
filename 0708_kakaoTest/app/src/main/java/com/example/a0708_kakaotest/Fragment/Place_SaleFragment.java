@@ -39,7 +39,7 @@ public class Place_SaleFragment extends Fragment {
         onNuri_Map = new OnNuri_Map(getActivity());
         ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         mapViewContainer.addView(onNuri_Map);
-        //onNuri_Map.cur_pos();
-        //onNuri_Map.input_mapMaker();
+        onNuri_Map.cur_pos();
+        onNuri_Map.input_mapMaker();
     }
 }

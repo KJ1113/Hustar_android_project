@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
     private BottomNavigationView bottomNavigationView;
 
-    private Init_GPS init_GPS;
-    private Init_Data init_Data;
-    private Init_Permisson init_Permisson;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +44,9 @@ public class MainActivity extends AppCompatActivity {
         this.init();
     }
     private void init(){
-
-        init_Permisson = new Init_Permisson(this);
-        init_Data = new Init_Data(this);
-        init_GPS = new Init_GPS(this);
-
+        new Init_Permisson(this);
+        new Init_GPS(this);
+        new Init_Data(this);
 
         menuFragment = new MenuFragment();
         use_ToFragment = new Use_ToFragment();

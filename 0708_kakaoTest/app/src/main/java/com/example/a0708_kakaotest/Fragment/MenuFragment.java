@@ -38,21 +38,6 @@ import java.util.List;
 public class MenuFragment extends Fragment {
 
     private View view;
-    private Animation animation;
-    private ViewPager viewPager;
-    private FrameLayout in_fr;
-    ViewTreeObserver mGlobalLayoutListener;
-
-
-    float downX;
-    float upX;
-    private ViewPager mViewPager;
-    private PagerAdapter pagerAdapter;
-
-    private Leaf_Fragment_1 leaf_Fragment_1 = new Leaf_Fragment_1();
-    private Leaf_Fragment_2 leaf_Fragment_2 = new Leaf_Fragment_2();
-    private Leaf_Fragment_3 leaf_Fragment_3 = new Leaf_Fragment_3();
-
 
 
     @Override
@@ -62,33 +47,5 @@ public class MenuFragment extends Fragment {
         return view;
     }
 
-    public class MeasuredViewPager extends ViewPager {
 
-
-        public MeasuredViewPager(Context context) {
-            super(context);
-        }
-
-        public MeasuredViewPager(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        @Override
-        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            int mode = MeasureSpec.getMode(heightMeasureSpec);
-            if (mode == MeasureSpec.UNSPECIFIED || mode == MeasureSpec.AT_MOST) {
-                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                int height = 0;
-                for (int i = 0; i < getChildCount(); i++) {
-                    View child = getChildAt(i);
-                    child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                    int h = child.getMeasuredHeight();
-                    if (h > height) height = h;
-                }
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-            }
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        }
-
-    }
 }
