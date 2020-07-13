@@ -24,8 +24,6 @@ public class MenuFragment extends Fragment {
     private ViewPager mViewPager;
     private PagerAdapter pagerAdapter;
 
-
-
     private Leaf_Fragment_1 leaf_Fragment_1 = new Leaf_Fragment_1();
     private Leaf_Fragment_2 leaf_Fragment_2 = new Leaf_Fragment_2();
     private Leaf_Fragment_3 leaf_Fragment_3 = new Leaf_Fragment_3();
@@ -34,10 +32,6 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_menu, container, false);
-        mViewPager = (ViewPager)view.findViewById(R.id.mViewPager);
-        pagerAdapter  = new PagerAdapter(getChildFragmentManager());
-
-        setupViewPager(mViewPager);
         return view;
     }
     public void setupViewPager(ViewPager viewPager) {

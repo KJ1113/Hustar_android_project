@@ -19,10 +19,20 @@ public class GpsTracker extends Service implements LocationListener {
     public Location location;
     public double latitude;
     public double longitude;
+    private static GpsTracker instance;
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
     protected LocationManager locationManager;
-    public GpsTracker(Context context) {
+    public static GpsTracker getInstance(Context context){
+        if(instance == null){
+            synchronized (GpsTracker.class) {
+                if(instance == null)
+                    instance = new GpsTracker(context);
+            }
+        }
+        return instance;
+    }
+    private GpsTracker(Context context) {
         this.mContext = context;
         getLocation();
     }

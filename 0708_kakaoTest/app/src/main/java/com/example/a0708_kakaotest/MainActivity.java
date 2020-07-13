@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Permisson;
 import com.example.a0708_kakaotest.Fragment.*;
@@ -19,9 +22,13 @@ public class MainActivity extends AppCompatActivity {
     private Use_ToFragment use_ToFragment;
     private Place_SaleFragment place_SaleFragment;
     private FragmentManager fragmentManager;
-
     private FragmentTransaction transaction;
     private BottomNavigationView bottomNavigationView;
+
+    private Init_GPS init_GPS;
+    private Init_Data init_Data;
+    private Init_Permisson init_Permisson;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
         this.init();
     }
     private void init(){
-        Init_GPS init_GPS = new Init_GPS(this);
-        Init_Permisson init_Permisson = new Init_Permisson(this);
+        init_Data = new Init_Data(this);
+        init_GPS = new Init_GPS(this);
+        init_Permisson = new Init_Permisson(this);
 
         menuFragment = new MenuFragment();
         use_ToFragment = new Use_ToFragment();
@@ -58,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.frameLayout, use_ToFragment).commit();
                     break;
                 case R.id.item_4:
-                    transaction.replace(R.id.frameLayout, use_ToFragment).commit();
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
+                    startActivity(myIntent);
                     break;
             }
             return true;

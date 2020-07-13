@@ -15,7 +15,7 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.gpsTracker;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 
 public class Place_SaleFragment extends Fragment {
     private MapView mapView;
@@ -33,8 +33,8 @@ public class Place_SaleFragment extends Fragment {
         cur_pos();
     }
     public void cur_pos() {
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
+        double latitude = getGPS().getLatitude();
+        double longitude = getGPS().getLongitude();
         Toast.makeText(getActivity(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
 
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
