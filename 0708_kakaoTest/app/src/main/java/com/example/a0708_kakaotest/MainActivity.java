@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
 
 
-        // ㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+        // ㅎㅎㅎㅎㅎ
     }
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener{
         @Override
