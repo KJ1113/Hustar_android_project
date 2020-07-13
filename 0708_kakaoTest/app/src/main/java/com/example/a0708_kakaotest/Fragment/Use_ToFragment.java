@@ -20,11 +20,7 @@ public class Use_ToFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_use_to, container, false);
-<<<<<<< HEAD
-       // this.map_init();
-=======
-        //this.map_init();
->>>>>>> 휴스타작업
+        this.map_init();
         return view;
     }
     public void map_init(){

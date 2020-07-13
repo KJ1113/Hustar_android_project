@@ -31,16 +31,14 @@ public class Place_SaleFragment extends Fragment {
         return view;
     }
     public void map_init(){
-<<<<<<< HEAD
+
         //mapView = new MapView(getActivity());
         //ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         //mapViewContainer.addView(mapView);
-=======
         mapView = new MapView(getActivity());
         mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
         ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
         mapViewContainer.addView(mapView);
->>>>>>> 휴스타작업
         cur_pos();
         input_mapMaker(10);
         //add_maker(35.21200140096,128.588723077959);
