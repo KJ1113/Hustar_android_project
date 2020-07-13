@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data;
@@ -16,6 +20,10 @@ import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Permisson;
 import com.example.a0708_kakaotest.Fragment.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import net.daum.mf.map.api.CalloutBalloonAdapter;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapView;
 
 import org.w3c.dom.Text;
 
@@ -32,17 +40,19 @@ public class MainActivity extends AppCompatActivity {
     private Init_Data init_Data;
     private Init_Permisson init_Permisson;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         this.init();
     }
     private void init(){
+
+        init_Permisson = new Init_Permisson(this);
         init_Data = new Init_Data(this);
         init_GPS = new Init_GPS(this);
-        init_Permisson = new Init_Permisson(this);
+
 
         menuFragment = new MenuFragment();
         use_ToFragment = new Use_ToFragment();
