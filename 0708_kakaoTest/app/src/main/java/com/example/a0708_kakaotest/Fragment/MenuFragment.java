@@ -46,6 +46,13 @@ public class MenuFragment extends Fragment {
 
     float downX;
     float upX;
+    private ViewPager mViewPager;
+    private PagerAdapter pagerAdapter;
+
+    private Leaf_Fragment_1 leaf_Fragment_1 = new Leaf_Fragment_1();
+    private Leaf_Fragment_2 leaf_Fragment_2 = new Leaf_Fragment_2();
+    private Leaf_Fragment_3 leaf_Fragment_3 = new Leaf_Fragment_3();
+
 
 
     @Override

@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_1"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="홈" />
+        android:icon="@drawable/home"
+        android:title="홈"
+        android:fontFamily="@font/namsam_regular"
+        app:showAsAction="withText" />
     <item
         android:id="@+id/item_2"
-        android:icon="@android:drawable/ic_menu_camera"
-        android:title="판매처" />
+        android:icon="@drawable/shop_location"
+        android:title="가맹점찾기"
+        android:fontFamily="@font/namsam_regular"
+        app:showAsAction="withText"/>
     <item
         android:id="@+id/item_3"
-        android:icon="@android:drawable/ic_menu_call"
-        android:title="사용처" />
+        android:icon="@drawable/bank_location"
+        android:title="판매점찾기"
+        android:fontFamily="@font/namsam_regular"
+        app:showAsAction="withText"/>
     <item
         android:id="@+id/item_4"
-        android:icon="@android:drawable/ic_menu_call"
-        android:title="QnA" />
+        android:icon="@drawable/question"
+        android:title="QnA"
+        android:fontFamily="@font/namsam_regular"
+        app:showAsAction="withText"/>
 </menu>
