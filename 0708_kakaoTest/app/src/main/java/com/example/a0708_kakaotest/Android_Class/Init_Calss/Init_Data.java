@@ -26,10 +26,8 @@ public class Init_Data {
     }
     private void prepArray(Activity ac) {
         try {
-
             AssetManager am = ac.getResources().getAssets() ;
             InputStream csvStream = am.open("BankStandard_data.csv");
-            //Toast.makeText(ac, "공공데이터를 불러오는중..", Toast.LENGTH_SHORT).show();
             InputStreamReader reader = new InputStreamReader(csvStream, Charset.forName("x-windows-949"));
             csv_bank = new CSVReader(reader).readAll();
             Toast.makeText(ac, "공공데이터를 업로드중..", Toast.LENGTH_SHORT).show();

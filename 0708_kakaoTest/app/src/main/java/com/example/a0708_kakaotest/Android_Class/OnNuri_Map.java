@@ -1,18 +1,11 @@
 package com.example.a0708_kakaotest.Android_Class;
 
 import android.app.Activity;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.a0708_kakaotest.R;
-
-import net.daum.mf.map.api.CalloutBalloonAdapter;
+import com.example.a0708_kakaotest.kakaoMap_Custom.CustomCalloutBalloonAdapter;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-
 import java.util.List;
 
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
@@ -21,10 +14,13 @@ import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getG
 public class OnNuri_Map extends MapView {
     private List<String[]> maplist;
     private Activity ac;
+    private double latitude;
+    private double longitude;
+
     public OnNuri_Map(Activity activity) {
         super(activity);
         this.ac = activity;
-        //this.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
+        this.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter(ac));
     }
     public void input_mapMaker(){
         maplist = get_bankData();
@@ -34,8 +30,8 @@ public class OnNuri_Map extends MapView {
     }
     public void cur_pos() {
         getGPS().getLocation();
-        double latitude =   getGPS().getLatitude();
-        double longitude =  getGPS().getLongitude();
+        latitude =   getGPS().getLatitude();
+        longitude =  getGPS().getLongitude();
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
         MapPOIItem marker = new MapPOIItem();
         this.setMapCenterPoint(mapPoint, true);
@@ -60,23 +56,6 @@ public class OnNuri_Map extends MapView {
         marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
         marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         this.addPOIItem(marker);
-    }
-
-    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
-        private final View mCalloutBalloon;
-
-        public CustomCalloutBalloonAdapter() {
-            mCalloutBalloon = ac.getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
-        }
-        @Override
-        public View getCalloutBalloon(MapPOIItem poiItem) {
-
-            return mCalloutBalloon;
-        }
-        @Override
-        public View getPressedCalloutBalloon(MapPOIItem poiItem) {
-            return null;
-        }
     }
 
 }

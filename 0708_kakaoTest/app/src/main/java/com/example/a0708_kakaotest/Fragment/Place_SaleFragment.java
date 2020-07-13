@@ -30,7 +30,7 @@ public class Place_SaleFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_use_to, container, false);
+        view = inflater.inflate(R.layout.fragment_place_sale, container, false);
 
         this.map_init();
         return view;
