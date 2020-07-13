@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu_fram"
     android:layout_width="match_parent"
@@ -17,7 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+
+        <com.example.a0708_kakaotest.Fragment.MeasuredViewPager
+            android:layout_width = "match_parent"
+            android:layout_height= "wrap_content"
+            tools:ignore="MissingClass" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,12 +38,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
