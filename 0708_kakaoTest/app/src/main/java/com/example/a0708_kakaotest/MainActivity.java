@@ -9,12 +9,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Permisson;
 import com.example.a0708_kakaotest.Fragment.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frameLayout, menuFragment).commit();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
+
     }
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener{
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            TextView titleText;
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch(menuItem.getItemId()) {
                 case R.id.item_1:
@@ -61,13 +66,19 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.item_2:
                     transaction.replace(R.id.frameLayout, place_SaleFragment).commit();
+                    titleText = findViewById(R.id.titleText);
+                    titleText.setText("가맹점 찾기");
                     break;
                 case R.id.item_3:
                     transaction.replace(R.id.frameLayout, use_ToFragment).commit();
+                    titleText = findViewById(R.id.titleText);
+                    titleText.setText("판매점 찾기");
                     break;
                 case R.id.item_4:
                     Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
                     startActivity(myIntent);
+                    titleText = findViewById(R.id.titleText);
+                    titleText.setText("Q&A");
                     break;
             }
             return true;
