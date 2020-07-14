@@ -2,6 +2,7 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/slidview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +22,6 @@
          umanoParallaxOffset 에 값을 주면 해당 높이만큼 뒤에 화면을 올려준다.
          umanoShadowHeight 는 슬라이딩 패널 윗부분에 그림자 효과
          umanoOverlay 를 false로 해주면 슬라이딩 패널이 위로 보이고 뒷 부분은 반투명하게 보인다. -->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,11 +29,102 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <RelativeLayout
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:orientation="vertical">
+
+                ﻿
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent" />
+
+                        <Spinner
+                            android:id="@+id/spinner_1"
+                            android:layout_width="350dp"
+                            android:layout_height="45dp"
+                            android:layout_weight="1" />
+
+                        <Space
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:text="검색" />
+
+                        <Space
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent" />
+
+                        <Spinner
+                            android:id="@+id/spinner_2"
+                            android:layout_width="350dp"
+                            android:layout_height="45dp"
+                            android:layout_weight="1" 
+                            />
+
+                        <Space
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/button9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:text="Button" />
+
+                        <Space
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <net.daum.mf.map.api.MapView
                 android:id="@+id/map_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"/>
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

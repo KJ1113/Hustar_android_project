@@ -41,9 +41,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
     public void map_init(){
         slidview = view.findViewById(R.id.slidview);
         listview = view.findViewById(R.id.listView);
-        mMapView = new MapView(getActivity());
-        ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
-        mapViewContainer.addView(mMapView);
+        mMapView = view.findViewById(R.id.map_view);
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         cur_pos();
