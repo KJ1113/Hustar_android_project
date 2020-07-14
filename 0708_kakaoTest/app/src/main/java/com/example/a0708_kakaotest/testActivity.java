@@ -1,25 +1,22 @@
-package com.example.a0708_kakaotest.Fragment;
+package com.example.a0708_kakaotest;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a0708_kakaotest.Android_Class.OnNuri_Map;
 import com.example.a0708_kakaotest.R;
-import com.example.a0708_kakaotest.testActivity;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -28,35 +25,26 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
 
+import java.util.List;
 
-public class Use_ToFragment extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener{
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
 
+public class testActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private final int MENU_DEFAULT_CALLOUT_BALLOON = Menu.FIRST;
     private final int MENU_CUSTOM_CALLOUT_BALLOON = Menu.FIRST + 1;
-
-
-    private SlidingUpPanelLayout slidview;
-    private MapView mMapView;
-    private View view;
-
+    private final int MENU_SHOW_ALL = Menu.FIRST + 2;
 
     private static final MapPoint CUSTOM_MARKER_POINT = MapPoint.mapPointWithGeoCoord(37.537229, 127.005515);
     private static final MapPoint CUSTOM_MARKER_POINT2 = MapPoint.mapPointWithGeoCoord(37.447229, 127.015515);
     private static final MapPoint DEFAULT_MARKER_POINT = MapPoint.mapPointWithGeoCoord(37.4020737, 127.1086766);
+
+    private MapView mMapView;
     private MapPOIItem mDefaultMarker;
     private MapPOIItem mCustomMarker;
     private MapPOIItem mCustomBmMarker;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_use_to, container, false);
-        slidview = view.findViewById(R.id.slidview);
-        this.map_init();
-        return view;
-    }
-
+    // CalloutBalloonAdapter 인터페이스 구현
     class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
         private final View mCalloutBalloon;
 
@@ -78,8 +66,12 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
         }
     }
 
-    public void map_init(){
-        mMapView = view.findViewById(R.id.map_view);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_test);
+        mMapView = (MapView) findViewById(R.id.map_view);
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
 
@@ -87,19 +79,23 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
         mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
         createDefaultMarker(mMapView);
         createCustomMarker(mMapView);
+        createCustomBitmapMarker(mMapView);
         showAll();
-
     }
-
-
-
 
     @Override
     public void onMapViewInitialized(MapView mapView) {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(0, MENU_DEFAULT_CALLOUT_BALLOON, Menu.NONE, "Default CalloutBalloon");
+        menu.add(0, MENU_CUSTOM_CALLOUT_BALLOON, Menu.NONE, "Custom CalloutBalloon");
 
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -226,13 +222,12 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
 
     @Override
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-        Toast.makeText(getActivity(), "Clicked " + mapPOIItem.getItemName() + " Callout Maker", Toast.LENGTH_SHORT).show();
-        
+        Toast.makeText(this, "Clicked " + mapPOIItem.getItemName() + " Callout Maker", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
-        Toast.makeText(getActivity(), "Clicked " + mapPOIItem.getItemName() + " Callout Balloon", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clicked " + mapPOIItem.getItemName() + " Callout Balloon", Toast.LENGTH_SHORT).show();
     }
 
     @Override

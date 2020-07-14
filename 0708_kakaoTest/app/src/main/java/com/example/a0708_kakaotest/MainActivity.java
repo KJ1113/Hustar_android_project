@@ -5,16 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data;
@@ -22,12 +15,6 @@ import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Permisson;
 import com.example.a0708_kakaotest.Fragment.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import net.daum.mf.map.api.CalloutBalloonAdapter;
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapView;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
                     titleText.setText("판매점 찾기");
                     break;
                 case R.id.item_4:
-                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
+                    //Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
+
+                    Intent myIntent = new Intent(getApplicationContext(), testActivity.class);
                     startActivity(myIntent);
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("Q&A");

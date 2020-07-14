@@ -3,6 +3,8 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/slidview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
@@ -12,7 +14,8 @@
     app:umanoPanelHeight="70dp"
     app:umanoOverlay="false"
     app:umanoParallaxOffset="0dp"
-    app:umanoShadowHeight="10dp">
+    app:umanoShadowHeight="10dp"
+    tools:ignore="MissingClass">
 
     <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
          umanoDragView 드래그 해서 보여줄 view를 선택
@@ -30,17 +33,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+
+            <net.daum.mf.map.api.MapView
                 android:id="@+id/map_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="8"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                android:layout_weight="8" />
+
+
 
             <Space
                 android:layout_width="match_parent"

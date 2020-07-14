@@ -20,7 +20,7 @@ public class OnNuri_Map extends MapView {
     public OnNuri_Map(Activity activity) {
         super(activity);
         this.ac = activity;
-        this.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter(ac));
+        //this.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter(ac));
     }
     public void input_mapMaker(){
         maplist = get_bankData();
