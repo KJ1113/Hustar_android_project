@@ -1,53 +1,32 @@
 package com.example.a0708_kakaotest.Fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.SlidingDrawer;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a0708_kakaotest.Android_Class.customMapPOIItem_use;
 import com.example.a0708_kakaotest.R;
-import com.example.a0708_kakaotest.testActivity;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
 import net.daum.mf.map.api.CalloutBalloonAdapter;
-import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
-
-
+import java.util.List;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 public class Use_ToFragment extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener{
-
-
-    private final int MENU_DEFAULT_CALLOUT_BALLOON = Menu.FIRST;
-    private final int MENU_CUSTOM_CALLOUT_BALLOON = Menu.FIRST + 1;
-
-
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
-
-
-    private static final MapPoint CUSTOM_MARKER_POINT = MapPoint.mapPointWithGeoCoord(37.537229, 127.005515);
-    private static final MapPoint CUSTOM_MARKER_POINT2 = MapPoint.mapPointWithGeoCoord(37.447229, 127.015515);
-    private static final MapPoint DEFAULT_MARKER_POINT = MapPoint.mapPointWithGeoCoord(37.4020737, 127.1086766);
-    private MapPOIItem mDefaultMarker;
-    private MapPOIItem mCustomMarker;
-    private MapPOIItem mCustomBmMarker;
-
+    private ListView listview ;
+    private List<String[]> maplist;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,14 +35,87 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
         this.map_init();
         return view;
     }
-
+    public void map_init(){
+        listview = view.findViewById(R.id.listView);
+        mMapView = view.findViewById(R.id.map_view);
+        mMapView.setMapViewEventListener(this);
+        mMapView.setPOIItemEventListener(this);
+        //mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
+        cur_pos();
+        input_mapMaker();
+        Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
+    }
+    public void input_mapMaker(){
+        maplist = get_bankData();
+        for(int i = 1 ; i < 80; i++){
+            add_maker(Integer.parseInt(maplist.get(i)[0]) ,maplist.get(i)[1],
+                    maplist.get(i)[2] ,Double.parseDouble(maplist.get(i)[4]) ,Double.parseDouble(maplist.get(i)[3]) ,maplist.get(i)[5] ,maplist.get(i)[6]);
+        }
+    }
+    public void cur_pos() {
+        getGPS().getLocation();
+        double latitude =   getGPS().getLatitude();
+        double longitude =  getGPS().getLongitude();
+        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+        MapPOIItem marker = new MapPOIItem();
+        mMapView.setMapCenterPoint(mapPoint, true);
+        mMapView.setZoomLevel(1, true);
+        marker.setItemName("현재위치");
+        marker.setTag(0);
+        marker.setMapPoint(mapPoint);
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        mMapView.addPOIItem(marker);
+    }
+    public void add_maker( int no, String name, String add, double latitude, double longitude, String city, String dis){
+        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+        MapPOIItem marker = new customMapPOIItem_use(  no,  name,  add,  latitude,  longitude,  city,  dis);
+        marker.setItemName(name);
+        marker.setTag(0);
+        marker.setMapPoint(mapPoint);
+        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+        mMapView.addPOIItem(marker);
+    }
+    @Override
+    public void onMapViewInitialized(MapView mapView) { }
+    @Override
+    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onMapViewZoomLevelChanged(MapView mapView, int i) { }
+    @Override
+    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) { }
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {}
+    @Override
+    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {}
+    @Override
+    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) { }
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
+        if(mapPOIItem instanceof customMapPOIItem_use){
+            customMapPOIItem_use item = (customMapPOIItem_use)mapPOIItem;
+            String[] values = new String[] {"시장명 : " + item.name, "주소 : " + item.add,"시/도 : "+ item.city, "시/군/구 : " + item.dis};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
+            listview.setAdapter(adapter);
+            slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
+    }
     class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
         private final View mCalloutBalloon;
-
         public CustomCalloutBalloonAdapter() {
             mCalloutBalloon = getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
         }
-
         @Override
         public View getCalloutBalloon(MapPOIItem poiItem) {
             ((ImageView) mCalloutBalloon.findViewById(R.id.badge)).setImageResource(R.drawable.ic_launcher);
@@ -71,177 +123,10 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
             ((TextView) mCalloutBalloon.findViewById(R.id.desc)).setText("Custom CalloutBalloon");
             return mCalloutBalloon;
         }
-
         @Override
         public View getPressedCalloutBalloon(MapPOIItem poiItem) {
             return null;
         }
     }
 
-    public void map_init(){
-        mMapView = view.findViewById(R.id.map_view);
-        mMapView.setMapViewEventListener(this);
-        mMapView.setPOIItemEventListener(this);
-
-        // 구현한 CalloutBalloonAdapter 등록
-        mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
-        createDefaultMarker(mMapView);
-        createCustomMarker(mMapView);
-        showAll();
-
-    }
-
-
-
-
-    @Override
-    public void onMapViewInitialized(MapView mapView) {
-
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_DEFAULT_CALLOUT_BALLOON: {
-                mMapView.removeAllPOIItems();
-                mMapView.setCalloutBalloonAdapter(null);
-                createDefaultMarker(mMapView);
-                createCustomMarker(mMapView);
-                showAll();
-                return true;
-            }
-            case MENU_CUSTOM_CALLOUT_BALLOON: {
-                mMapView.removeAllPOIItems();
-                mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
-                createDefaultMarker(mMapView);
-                createCustomMarker(mMapView);
-                showAll();
-                return true;
-            }
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void createDefaultMarker(MapView mapView) {
-        mDefaultMarker = new MapPOIItem();
-        String name = "Default Marker";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(DEFAULT_MARKER_POINT);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(DEFAULT_MARKER_POINT, false);
-    }
-
-    private void createCustomMarker(MapView mapView) {
-        mCustomMarker = new MapPOIItem();
-        String name = "Custom Marker";
-        mCustomMarker.setItemName(name);
-        mCustomMarker.setTag(1);
-        mCustomMarker.setMapPoint(CUSTOM_MARKER_POINT);
-
-        mCustomMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-
-        mCustomMarker.setCustomImageResourceId(R.drawable.custom_marker_red);
-        mCustomMarker.setCustomImageAutoscale(false);
-        mCustomMarker.setCustomImageAnchor(0.5f, 1.0f);
-
-        mapView.addPOIItem(mCustomMarker);
-        mapView.selectPOIItem(mCustomMarker, true);
-        mapView.setMapCenterPoint(CUSTOM_MARKER_POINT, false);
-
-    }
-
-    private void createCustomBitmapMarker(MapView mapView) {
-        mCustomBmMarker = new MapPOIItem();
-        String name = "Custom Bitmap Marker";
-        mCustomBmMarker.setItemName(name);
-        mCustomBmMarker.setTag(2);
-        mCustomBmMarker.setMapPoint(CUSTOM_MARKER_POINT2);
-
-        mCustomBmMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.custom_marker_star);
-        mCustomBmMarker.setCustomImageBitmap(bm);
-        mCustomBmMarker.setCustomImageAutoscale(false);
-        mCustomBmMarker.setCustomImageAnchor(0.5f, 0.5f);
-
-        mapView.addPOIItem(mCustomBmMarker);
-        mapView.selectPOIItem(mCustomBmMarker, true);
-        mapView.setMapCenterPoint(CUSTOM_MARKER_POINT, false);
-    }
-
-    private void showAll() {
-        int padding = 20;
-        float minZoomLevel = 7;
-        float maxZoomLevel = 10;
-        MapPointBounds bounds = new MapPointBounds(CUSTOM_MARKER_POINT, DEFAULT_MARKER_POINT);
-        mMapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
-    }
-
-    @Override
-    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-
-    }
-
-    @Override
-    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-
-    }
-
-    @Override
-    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
-        Toast.makeText(getActivity(), "Clicked " + mapPOIItem.getItemName() + " Callout Maker", Toast.LENGTH_SHORT).show();
-        
-    }
-
-    @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
-        Toast.makeText(getActivity(), "Clicked " + mapPOIItem.getItemName() + " Callout Balloon", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
-
-    }
-
-    @Override
-    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
-
-    }
 }

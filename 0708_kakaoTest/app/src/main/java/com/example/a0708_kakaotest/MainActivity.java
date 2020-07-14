@@ -58,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.frameLayout, menuFragment).commit();
                     break;
                 case R.id.item_2:
-                    transaction.replace(R.id.frameLayout, place_SaleFragment).commit();
+                    transaction.replace(R.id.frameLayout,  use_ToFragment ).commit();
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("가맹점 찾기");
                     break;
                 case R.id.item_3:
-                    transaction.replace(R.id.frameLayout, use_ToFragment).commit();
+                    transaction.replace(R.id.frameLayout, place_SaleFragment).commit();
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("판매점 찾기");
                     break;

@@ -1,22 +1,16 @@
 package com.example.a0708_kakaotest;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.a0708_kakaotest.Android_Class.OnNuri_Map;
-import com.example.a0708_kakaotest.R;
 
 import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -24,10 +18,6 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
-
-import java.util.List;
-
-import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
 
 public class testActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
 
