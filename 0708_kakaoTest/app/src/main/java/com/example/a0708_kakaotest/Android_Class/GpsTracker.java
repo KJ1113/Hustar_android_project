@@ -24,12 +24,8 @@ public class GpsTracker extends Service implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
     protected LocationManager locationManager;
     public static GpsTracker getInstance(Context context){
-        if(instance == null){
-            synchronized (GpsTracker.class) {
-                if(instance == null)
-                    instance = new GpsTracker(context);
-            }
-        }
+        if(instance == null)
+            instance = new GpsTracker(context);
         return instance;
     }
     private GpsTracker(Context context) {

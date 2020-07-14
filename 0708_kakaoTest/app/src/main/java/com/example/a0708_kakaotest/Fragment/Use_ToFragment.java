@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SlidingDrawer;
 
 import com.example.a0708_kakaotest.R;
 
@@ -16,11 +18,14 @@ import net.daum.mf.map.api.MapView;
 public class Use_ToFragment extends Fragment {
     private MapView mapView;
     private View view;
+    private Button btnClose;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_use_to, container, false);
         this.map_init();
+
+
         return view;
     }
     public void map_init(){

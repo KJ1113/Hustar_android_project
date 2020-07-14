@@ -26,17 +26,8 @@ public class Init_Data {
     }
     private void prepArray(Activity ac) {
         try {
-            if (ContextCompat.checkSelfPermission(ac, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(ac,Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                } else {
-                    ActivityCompat.requestPermissions(ac,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            1);
-                }
-            }
             AssetManager am = ac.getResources().getAssets() ;
             InputStream csvStream = am.open("BankStandard_data.csv");
-            //Toast.makeText(ac, "공공데이터를 불러오는중..", Toast.LENGTH_SHORT).show();
             InputStreamReader reader = new InputStreamReader(csvStream, Charset.forName("x-windows-949"));
             csv_bank = new CSVReader(reader).readAll();
             Toast.makeText(ac, "공공데이터를 업로드중..", Toast.LENGTH_SHORT).show();

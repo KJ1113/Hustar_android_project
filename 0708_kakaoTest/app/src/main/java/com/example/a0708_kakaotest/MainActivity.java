@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data;
@@ -36,10 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
     private BottomNavigationView bottomNavigationView;
 
-    private Init_GPS init_GPS;
-    private Init_Data init_Data;
-    private Init_Permisson init_Permisson;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +46,9 @@ public class MainActivity extends AppCompatActivity {
         this.init();
     }
     private void init(){
-
-        init_Permisson = new Init_Permisson(this);
-        init_Data = new Init_Data(this);
-        init_GPS = new Init_GPS(this);
-
+        new Init_Permisson(this);
+        new Init_GPS(this);
+        new Init_Data(this);
 
         menuFragment = new MenuFragment();
         use_ToFragment = new Use_ToFragment();
