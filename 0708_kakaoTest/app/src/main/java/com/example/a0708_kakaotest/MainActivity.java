@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.init();
+        //zz
     }
     private void init(){
         new Init_Permisson(this);
