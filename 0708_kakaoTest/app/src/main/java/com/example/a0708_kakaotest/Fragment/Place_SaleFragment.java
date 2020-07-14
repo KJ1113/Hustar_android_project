@@ -41,13 +41,14 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
     public void map_init(){
         slidview = view.findViewById(R.id.slidview);
         listview = view.findViewById(R.id.listView);
-        mMapView = view.findViewById(R.id.map_view);
+        mMapView = new MapView(getActivity());
+        ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
+        mapViewContainer.addView(mMapView);
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
-
         cur_pos();
         input_mapMaker();
-        Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
     }
     public void input_mapMaker(){
         maplist = get_bankData();
@@ -106,7 +107,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem ) {
         if(mapPOIItem instanceof customMapPOIItem_bank){
             customMapPOIItem_bank item = (customMapPOIItem_bank)mapPOIItem;
-            String[] values = new String[] {"은행명: " + item.bankname, "지점명 : " + item.name , "연락처 : "+ item.num, "주소 : " + item.add + "시/도 : "+ item.city, "시/군/구 : " + item.dis};
+            String[] values = new String[] {"은행명: " + item.bankname, "지점명 : " + item.name , "연락처 : "+ item.num, "주소 : " + item.add , "시/도 : "+ item.city, "시/군/구 : " + item.dis};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
             listview.setAdapter(adapter);
             slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -135,24 +136,4 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {}
 
-    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
-        private final View mCalloutBalloon;
-
-        public CustomCalloutBalloonAdapter() {
-            mCalloutBalloon = getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
-        }
-
-        @Override
-        public View getCalloutBalloon(MapPOIItem poiItem) {
-            ((ImageView) mCalloutBalloon.findViewById(R.id.badge)).setImageResource(R.drawable.ic_launcher);
-            ((TextView) mCalloutBalloon.findViewById(R.id.title)).setText(poiItem.getItemName());
-            ((TextView) mCalloutBalloon.findViewById(R.id.desc)).setText("Custom CalloutBalloon");
-            return mCalloutBalloon;
-        }
-
-        @Override
-        public View getPressedCalloutBalloon(MapPOIItem poiItem) {
-            return null;
-        }
-    }
 }

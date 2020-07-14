@@ -20,6 +20,7 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 import java.util.List;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_useData;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 public class Use_ToFragment extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener{
     private SlidingUpPanelLayout slidview;
@@ -37,19 +38,21 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
     }
     public void map_init(){
         listview = view.findViewById(R.id.listView);
-        mMapView = view.findViewById(R.id.map_view);
+        mMapView = new MapView(getActivity());
+        ViewGroup mapViewContainer = (ViewGroup) view.findViewById(R.id.map_view);
+        mapViewContainer.addView(mMapView);
+        //mMapView = view.findViewById(R.id.map_view);
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
-        //mMapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
         cur_pos();
         input_mapMaker();
-        Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
     }
     public void input_mapMaker(){
-        maplist = get_bankData();
+        maplist = get_useData();
         for(int i = 1 ; i < 80; i++){
             add_maker(Integer.parseInt(maplist.get(i)[0]) ,maplist.get(i)[1],
-                    maplist.get(i)[2] ,Double.parseDouble(maplist.get(i)[4]) ,Double.parseDouble(maplist.get(i)[3]) ,maplist.get(i)[5] ,maplist.get(i)[6]);
+                    maplist.get(i)[2] ,Double.parseDouble(maplist.get(i)[3]) ,Double.parseDouble(maplist.get(i)[4 ]) ,maplist.get(i)[5] ,maplist.get(i)[6]);
         }
     }
     public void cur_pos() {
@@ -111,22 +114,4 @@ public class Use_ToFragment extends Fragment implements MapView.MapViewEventList
             slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
     }
-    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
-        private final View mCalloutBalloon;
-        public CustomCalloutBalloonAdapter() {
-            mCalloutBalloon = getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
-        }
-        @Override
-        public View getCalloutBalloon(MapPOIItem poiItem) {
-            ((ImageView) mCalloutBalloon.findViewById(R.id.badge)).setImageResource(R.drawable.ic_launcher);
-            ((TextView) mCalloutBalloon.findViewById(R.id.title)).setText(poiItem.getItemName());
-            ((TextView) mCalloutBalloon.findViewById(R.id.desc)).setText("Custom CalloutBalloon");
-            return mCalloutBalloon;
-        }
-        @Override
-        public View getPressedCalloutBalloon(MapPOIItem poiItem) {
-            return null;
-        }
-    }
-
 }
