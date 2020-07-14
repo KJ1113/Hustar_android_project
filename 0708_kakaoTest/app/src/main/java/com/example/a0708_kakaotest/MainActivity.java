@@ -55,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch(menuItem.getItemId()) {
                 case R.id.item_1:
+
                     transaction.replace(R.id.frameLayout, menuFragment).commit();
+                    titleText = findViewById(R.id.titleText);
+                    titleText.setText("온누리상품권 알리미");
                     break;
                 case R.id.item_2:
                     transaction.replace(R.id.frameLayout,  use_ToFragment ).commit();
