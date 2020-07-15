@@ -2,7 +2,6 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/slidview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +14,6 @@
     app:umanoParallaxOffset="0dp"
     app:umanoShadowHeight="10dp"
     tools:ignore="MissingClass">
-
     <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
          umanoDragView 드래그 해서 보여줄 view를 선택
          umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
@@ -36,15 +34,11 @@
                 android:layout_weight="7"
                 android:orientation="vertical">
 
-                ﻿
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                </LinearLayout>
+                    android:layout_weight="4"
+                    android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,17 +60,18 @@
                             android:id="@+id/spinner_1"
                             android:layout_width="350dp"
                             android:layout_height="45dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:spinnerMode="dropdown" />
 
                         <Space
                             android:layout_width="25dp"
                             android:layout_height="match_parent" />
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/button_1"
                             android:layout_width="wrap_content"
                             android:layout_height="45dp"
-                            android:text="검색" />
+                            android:text="시/도 설정" />
 
                         <Space
                             android:layout_width="25dp"
@@ -97,18 +92,49 @@
                             android:id="@+id/spinner_2"
                             android:layout_width="350dp"
                             android:layout_height="45dp"
-                            android:layout_weight="1" 
-                            />
+                            android:layout_weight="1" />
 
                         <Space
                             android:layout_width="25dp"
                             android:layout_height="match_parent" />
 
                         <Button
-                            android:id="@+id/button9"
+                            android:id="@+id/button_2"
                             android:layout_width="wrap_content"
                             android:layout_height="45dp"
-                            android:text="Button" />
+                            android:text="검색" />
+
+                        <Space
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent" />
+
+                        <Spinner
+                            android:id="@+id/spinner_3"
+                            android:layout_width="350dp"
+                            android:layout_height="45dp"
+                            android:layout_weight="1"
+                            android:spinnerMode="dropdown" />
+
+                        <Space
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent" />
+
+                        <Button
+                            android:id="@+id/button_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:text="은행검색" />
 
                         <Space
                             android:layout_width="25dp"
@@ -116,7 +142,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
             </LinearLayout>
 
             <net.daum.mf.map.api.MapView
@@ -124,14 +149,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3" />
-
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
-
-
     <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
     <LinearLayout
         android:id="@+id/dragView"
