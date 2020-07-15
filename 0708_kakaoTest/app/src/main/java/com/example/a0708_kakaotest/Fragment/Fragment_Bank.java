@@ -92,22 +92,26 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             String dis  = spinner_2.getSelectedItem().toString();
             String bank  = spinner_3.getSelectedItem().toString();
 
+            if(city.equals("시/도") && dis.equals("시/군/구") && !bank.equals("은행") ) {
+                Toast.makeText(getActivity(), "운 설정해주세요", Toast.LENGTH_SHORT).show();
+                input_mapMaker("", "", bank);
+            }
+
             if( city.equals("시/도") && dis.equals("시/군/구") && bank.equals("은행")){
                 Toast.makeText(getActivity(),"시/도 를 먼저 설정해주세요",Toast.LENGTH_SHORT).show();
             }
             else{
                 if ( dis.equals("시/군/구") || bank.equals("은행")){
-                    if(dis.equals("시/군/구") && bank.equals("은행")){
+                    if( !city.equals("시/도") && dis.equals("시/군/구") && bank.equals("은행")){
                         input_mapMaker(city, "","");
-                    }else if(dis.equals("시/군/구") || !bank.equals("은행")){
+                    }else if(!city.equals("시/도") && dis.equals("시/군/구") || !bank.equals("은행")){
                         input_mapMaker(city, "",bank);
+                    }else if(city.equals("시/도") && dis.equals("시/군/구") && !bank.equals("은행") ){
+                        Toast.makeText(getActivity(),"운 설정해주세요",Toast.LENGTH_SHORT).show();
+                        input_mapMaker("", "",bank);
                     }else{
                         input_mapMaker(city, dis,"");
                     }
-                }
-                else if(city.equals("시/도") && dis.equals("시/군/구")){
-                    Toast.makeText(getActivity(),"?",Toast.LENGTH_SHORT).show();
-                    input_mapMaker("", "",bank);
                 }
                 else if(!city.equals("시/도") && !dis.equals("시/군/구") && !bank.equals("은행")){
                     input_mapMaker(city, dis,bank);
@@ -173,27 +177,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
                     }
                 }
                 cur_pos(0);
-            }
-        }
-    }
-    private class button3Onclick_Select implements Button.OnClickListener{
-        @Override
-        public void onClick(View view) {
-            String city = spinner_1.getSelectedItem().toString();
-            String dis  = spinner_2.getSelectedItem().toString();
-            String bank  = spinner_3.getSelectedItem().toString();
-            if(bank.equals("은행")){
-                Toast.makeText(getActivity(),"은행을 먼저 설정해주세요",Toast.LENGTH_SHORT).show();
-            }else {
-                if( !city.equals("시/도") && dis.equals("시/군/구") && !bank.equals("은행")){
-                    input_mapMaker(city , "" ,bank );
-                }
-                else if (city.equals("시/도") && dis.equals("시/군/구") && !bank.equals("은행")) {
-                    input_mapMaker("" , "" ,bank );
-                }
-                else if(!city.equals("시/도") && !dis.equals("시/군/구") && !bank.equals("은행")){
-                    input_mapMaker(city , dis ,bank );
-                }
             }
         }
     }
