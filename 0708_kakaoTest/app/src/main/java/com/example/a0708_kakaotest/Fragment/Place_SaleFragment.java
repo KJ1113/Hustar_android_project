@@ -506,6 +506,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
             }
         }
     }
+    //zz
     public void cur_pos() {
         getGPS().getLocation();
         double latitude =  getGPS().getLatitude();
