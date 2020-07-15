@@ -19,6 +19,7 @@ import net.daum.mf.map.api.MapView;
 import java.util.ArrayList;
 import java.util.List;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_useData;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 
 public class Place_SaleFragment extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener{
@@ -66,10 +67,12 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
+        button_3.setOnClickListener(new button3Onclick_Select());
+        maplist = get_bankData();
         cur_pos();
         //Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
     }
-    public class buttonOnclick_Select implements Button.OnClickListener{
+    private class buttonOnclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
             String text = spinner_1.getSelectedItem().toString();
@@ -81,7 +84,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
             }
         }
     }
-    public class button2Onclick_Select implements Button.OnClickListener{
+    private class button2Onclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
             String city = spinner_1.getSelectedItem().toString();
@@ -89,10 +92,31 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
             if(city.equals("시/도")){
                 Toast.makeText(getActivity(),"시/도 를 먼저 설정해주세요",Toast.LENGTH_SHORT).show();
             }else if(dis.equals("시/군/구")) {
-                input_mapMaker(city, "");
+                input_mapMaker(city, "","");
             }
             else {
-                input_mapMaker(city, dis);
+                input_mapMaker(city, dis,"");
+            }
+        }
+    }
+    private class button3Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            String city = spinner_1.getSelectedItem().toString();
+            String dis  = spinner_2.getSelectedItem().toString();
+            String bank  = spinner_3.getSelectedItem().toString();
+            if(bank.equals("은행")){
+                Toast.makeText(getActivity(),"은행을 먼저 설정해주세요",Toast.LENGTH_SHORT).show();
+            }else {
+                if( !city.equals("시/도") && dis.equals("시/군/구") && !bank.equals("은행")){
+                    input_mapMaker(city , "" ,bank );
+                }
+                else if (city.equals("시/도") && dis.equals("시/군/구") && !bank.equals("은행")) {
+                    input_mapMaker("" , "" ,bank );
+                }
+                else if(!city.equals("시/도") && !dis.equals("시/군/구") && !bank.equals("은행")){
+                    input_mapMaker(city , dis ,bank );
+                }
             }
         }
     }
@@ -107,25 +131,19 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
         bankList.add("신한은행");
         bankList.add("우리은행");
         bankList.add("국민은행");
-        bankList.add("강원");
-        bankList.add("충남");
-        bankList.add("대전");
-        bankList.add("충북");
-        bankList.add("부산");
-        bankList.add("울산");
-        bankList.add("대구");
-        bankList.add("경북");
-        bankList.add("경남");
-        bankList.add("전남");
-        bankList.add("광주");
-        bankList.add("전북");
-        bankList.add("제주");
-        bankList.add("세종");
+        bankList.add("대구은행");
+        bankList.add("부산은행");
+        bankList.add("광주은행");
+        bankList.add("전북은행");
+        bankList.add("경남은행");
+        bankList.add("수협");
+        bankList.add("신협");
+        bankList.add("농협은행");
+        bankList.add("우체국");
+        bankList.add("새마을금고");
+        bankList.add("IBK기업은행");
         arrayAdapter3 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,bankList);
     }
-
-
-
     public void inputdisArray(String city){
         disArrayList = new ArrayList<String>();
         disArrayList.add("시/군/구");
@@ -188,7 +206,6 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
 
         }
         arrayAdapter2 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
-
         spinner_2.setAdapter(arrayAdapter2);
     }
     public void cityArrayListinit(){
@@ -213,37 +230,59 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
         cityArrayList.add("세종");
         arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,cityArrayList);
     }
-    public void input_mapMaker(String city ,String dis){
+    public void input_mapMaker(String city ,String dis ,String bank){
         mMapView.removeAllPOIItems();
         cur_pos();
-        maplist = get_bankData();
-        if(dis.equals("")){
-            for(int i = 1 ; i < maplist.size() ; i++){
-                if(maplist.get(i)[2].equals(city)) {
-                    add_maker(Integer.parseInt(maplist.get(i)[0]),
-                            maplist.get(i)[2],
-                            maplist.get(i)[3],
-                            maplist.get(i)[4],
-                            maplist.get(i)[5],
-                            maplist.get(i)[6],
-                            maplist.get(i)[7],
-                            Double.parseDouble(maplist.get(i)[9]),
-                            Double.parseDouble(maplist.get(i)[8]));
+        if(bank.equals("")){
+            if(dis.equals("")){
+                for(int i = 1 ; i < maplist.size() ; i++){
+                    if(maplist.get(i)[2].equals(city)) {
+                        add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
+                                maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
+                                maplist.get(i)[6], maplist.get(i)[7],
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                    }
                 }
             }
-        }
-        else{
-            for(int i = 1 ; i < maplist.size() ; i++){
-                if(maplist.get(i)[2].equals(city) && maplist.get(i)[3].equals(dis)) {
-                    add_maker(Integer.parseInt(maplist.get(i)[0]),
-                            maplist.get(i)[2],
-                            maplist.get(i)[3],
-                            maplist.get(i)[4],
-                            maplist.get(i)[5],
-                            maplist.get(i)[6],
-                            maplist.get(i)[7],
-                            Double.parseDouble(maplist.get(i)[9]),
-                            Double.parseDouble(maplist.get(i)[8]));
+            else{
+                for(int i = 1 ; i < maplist.size() ; i++){
+                    if(maplist.get(i)[2].equals(city) && maplist.get(i)[3].equals(dis)) {
+                        add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
+                                maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
+                                maplist.get(i)[6], maplist.get(i)[7],
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                    }
+                }
+            }
+        }else{
+            if(dis.equals("") && !city.equals("")){
+                for(int i = 1 ; i < maplist.size() ; i++){
+                    if(maplist.get(i)[2].equals(city) && maplist.get(i)[4].equals(bank)) {
+                        add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
+                                maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
+                                maplist.get(i)[6], maplist.get(i)[7],
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                    }
+                }
+            }
+            else if(dis.equals("") && city.equals("")){
+                for(int i = 1 ; i < maplist.size() ; i++){
+                    if(maplist.get(i)[4].equals(bank)) {
+                        add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
+                                maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
+                                maplist.get(i)[6], maplist.get(i)[7],
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                    }
+                }
+            }
+            else if(!dis.equals("") && !city.equals("")){
+                for(int i = 1 ; i < maplist.size() ; i++){
+                    if(maplist.get(i)[2].equals(city) && maplist.get(i)[3].equals(dis) && maplist.get(i)[4].equals(bank)) {
+                        add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
+                                maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
+                                maplist.get(i)[6], maplist.get(i)[7],
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                    }
                 }
             }
         }
