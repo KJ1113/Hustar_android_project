@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         new Init_Permisson(this);
         new Init_GPS(this);
         new Init_Data(this);
+        //
 
         menuFragment = new Fragment_Menu();
         use_ToFragment = new Fragment_Market();
