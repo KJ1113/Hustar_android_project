@@ -1,4 +1,4 @@
-package com.example.a0708_kakaotest.Android_Class;
+package com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class;
 
 import android.Manifest;
 import android.app.Service;
@@ -10,10 +10,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
-
 public class GpsTracker extends Service implements LocationListener {
     private final Context mContext;
     public Location location;
@@ -68,7 +66,7 @@ public class GpsTracker extends Service implements LocationListener {
                 }
             }
         } catch (Exception e) {
-            Log.d("@@@", "" + e.toString());
+            //Log.d("@@@", "" + e.toString());
         }
         return location;
     }
@@ -82,24 +80,16 @@ public class GpsTracker extends Service implements LocationListener {
         if (location != null) {
             longitude = location.getLongitude();
         }
-
         return longitude;
     }
     @Override
-    public void onLocationChanged(Location location) {
-    }
-
+    public void onLocationChanged(Location location) { }
     @Override
-    public void onProviderDisabled(String provider) {
-    }
-
+    public void onProviderDisabled(String provider) { }
     @Override
-    public void onProviderEnabled(String provider) {
-    }
-
+    public void onProviderEnabled(String provider) { }
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) { }
     @Override
     public IBinder onBind(Intent arg0) {
         return null;

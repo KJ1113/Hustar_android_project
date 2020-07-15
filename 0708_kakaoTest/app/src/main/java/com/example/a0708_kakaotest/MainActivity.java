@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -18,9 +19,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MenuFragment menuFragment;
-    private Use_ToFragment use_ToFragment;
-    private Place_SaleFragment place_SaleFragment;
+    private Fragment_Menu menuFragment;
+    private Fragment_Market use_ToFragment;
+    private Fragment_Bank place_SaleFragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
     private BottomNavigationView bottomNavigationView;
@@ -29,18 +30,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         this.init();
-        //zzz
     }
     private void init(){
         new Init_Permisson(this);
         new Init_GPS(this);
         new Init_Data(this);
 
-        menuFragment = new MenuFragment();
-        use_ToFragment = new Use_ToFragment();
-        place_SaleFragment = new Place_SaleFragment();
+        menuFragment = new Fragment_Menu();
+        use_ToFragment = new Fragment_Market();
+        place_SaleFragment = new Fragment_Bank();
         fragmentManager = getSupportFragmentManager();
 
         transaction = fragmentManager.beginTransaction();
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch(menuItem.getItemId()) {
                 case R.id.item_1:
-
                     transaction.replace(R.id.frameLayout, menuFragment).commit();
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("온누리상품권 알리미");
@@ -72,9 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     titleText.setText("판매점 찾기");
                     break;
                 case R.id.item_4:
-                    //Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
-
-                    Intent myIntent = new Intent(getApplicationContext(), testActivity.class);
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
                     startActivity(myIntent);
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("Q&A");

@@ -1,10 +1,8 @@
-package com.example.a0708_kakaotest.Android_Class;
+package com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class;
 
 import net.daum.mf.map.api.MapPOIItem;
 
-public class customMapPOIItem_bank extends MapPOIItem {
-
-
+public class CustomPOIItem_Bank extends MapPOIItem {
     public int no;
     public String name;
     public String add;
@@ -14,8 +12,7 @@ public class customMapPOIItem_bank extends MapPOIItem {
     public String dis;
     public String bankname;
     public String num;
-
-    public customMapPOIItem_bank(int no, String city, String dis,  String bankname ,String name ,String num ,String add , double latitude, double longitude ) {
+    public CustomPOIItem_Bank(int no, String city, String dis, String bankname , String name , String num , String add , double latitude, double longitude ) {
         this.no = no;
         this.name = name;
         this.add = add;
@@ -26,6 +23,4 @@ public class customMapPOIItem_bank extends MapPOIItem {
         this.bankname =bankname;
         this.num =num;
     }
-
-
 }
