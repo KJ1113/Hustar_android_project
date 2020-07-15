@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
         place_SaleFragment = new Fragment_Bank();
         fragmentManager = getSupportFragmentManager();
 
+
+
         transaction = fragmentManager.beginTransaction();
+
         transaction.replace(R.id.frameLayout, menuFragment).commit();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             TextView titleText;
             FragmentTransaction transaction = fragmentManager.beginTransaction();
+            //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
+
             switch(menuItem.getItemId()) {
                 case R.id.item_1:
                     transaction.replace(R.id.frameLayout, menuFragment).commit();

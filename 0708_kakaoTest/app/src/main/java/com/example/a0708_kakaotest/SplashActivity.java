@@ -16,6 +16,7 @@ public class SplashActivity extends Activity {
             e.printStackTrace();
         }
         startActivity(new Intent(this,MainActivity.class));
+        this.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
 }

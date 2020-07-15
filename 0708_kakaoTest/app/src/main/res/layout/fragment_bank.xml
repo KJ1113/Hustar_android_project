@@ -150,23 +150,16 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16sp"
-                android:text="--"
                 android:textSize="24sp" />
-
         </LinearLayout>
-
 
         <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
         <ListView
