@@ -69,7 +69,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
         button_2.setOnClickListener(new button2Onclick_Select());
         button_3.setOnClickListener(new button3Onclick_Select());
         maplist = get_bankData();
-        cur_pos();
+        cur_pos(1);
         //Toast.makeText(getActivity(),"사이즈 : " + maplist.size() , Toast.LENGTH_SHORT).show();
     }
     private class buttonOnclick_Select implements Button.OnClickListener{
@@ -138,7 +138,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
         bankList.add("경남은행");
         bankList.add("수협");
         bankList.add("신협");
-        bankList.add("농협은행");
+        bankList.add("농협");
         bankList.add("우체국");
         bankList.add("새마을금고");
         bankList.add("IBK기업은행");
@@ -451,7 +451,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
     }
     public void input_mapMaker(String city ,String dis ,String bank){
         mMapView.removeAllPOIItems();
-        cur_pos();
+
         if(bank.equals("")){
             if(dis.equals("")){
                 for(int i = 1 ; i < maplist.size() ; i++){
@@ -459,7 +459,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
                         add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
                                 maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
                                 maplist.get(i)[6], maplist.get(i)[7],
-                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]),8);
                     }
                 }
             }
@@ -469,18 +469,19 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
                         add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
                                 maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
                                 maplist.get(i)[6], maplist.get(i)[7],
-                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]),6);
                     }
                 }
             }
-        }else{
+            cur_pos(0);
+        }else{ // 은행만으로 검색했을때
             if(dis.equals("") && !city.equals("")){
                 for(int i = 1 ; i < maplist.size() ; i++){
                     if(maplist.get(i)[2].equals(city) && maplist.get(i)[4].equals(bank)) {
                         add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
                                 maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
                                 maplist.get(i)[6], maplist.get(i)[7],
-                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]),0);
                     }
                 }
             }
@@ -490,7 +491,7 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
                         add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
                                 maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
                                 maplist.get(i)[6], maplist.get(i)[7],
-                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]),0);
                     }
                 }
             }
@@ -500,38 +501,47 @@ public class Place_SaleFragment extends Fragment implements MapView.MapViewEvent
                         add_maker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2],
                                 maplist.get(i)[3], maplist.get(i)[4], maplist.get(i)[5],
                                 maplist.get(i)[6], maplist.get(i)[7],
-                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]));
+                                Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]),0);
                     }
                 }
             }
+            // 현재 위치 중심으로 전국적으로 뷰 보여줌
+            // 커밋용
+            cur_pos(11);
         }
     }
     //zz
-    public void cur_pos() {
+    public void cur_pos(int lv) {
         getGPS().getLocation();
         double latitude =  getGPS().getLatitude();
         double longitude = getGPS().getLongitude();
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
         MapPOIItem marker = new MapPOIItem();
-        mMapView.setMapCenterPoint(mapPoint, true);
-        mMapView.setZoomLevel(1, true);
         marker.setItemName("현재위치");
         Toast.makeText(getActivity(), latitude + " "+ longitude ,Toast.LENGTH_SHORT).show();
         marker.setTag(1);
         marker.setMapPoint(mapPoint);
-        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        marker.setMarkerType(MapPOIItem.MarkerType.YellowPin);
         marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
         mMapView.addPOIItem(marker);
+        if(lv != 0 ){
+            mMapView.setMapCenterPoint(mapPoint, true);
+            mMapView.setZoomLevel(lv, true);
+        }
     }
-    public void add_maker(int no, String city, String dis,  String bankname ,String name ,String num ,String add , double latitude, double longitude  ){
+    public void add_maker(int no, String city, String dis,  String bankname ,String name ,String num ,String add , double latitude, double longitude  , int ZoomLv){
             MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
             customMapPOIItem_bank marker = new customMapPOIItem_bank(  no,  city,  dis,   bankname , name , num , add ,  latitude,  longitude );
-            marker.setItemName(bankname);
+            marker.setItemName(bankname + " ( "+name+" )");
             marker.setTag(1);
             marker.setMapPoint(mapPoint);
             marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
             marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
             mMapView.addPOIItem(marker);
+            if(ZoomLv!=0){
+                mMapView.setMapCenterPoint(mapPoint, true);
+                mMapView.setZoomLevel(ZoomLv, true);
+            }
     }
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem ) {
