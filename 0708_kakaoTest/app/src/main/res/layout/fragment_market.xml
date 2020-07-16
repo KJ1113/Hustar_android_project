@@ -58,8 +58,8 @@
 
                         <Spinner
                             android:id="@+id/spinner_1"
-                            android:layout_width="223dp"
-                            android:layout_height="45dp"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:spinnerMode="dropdown" />
 
@@ -67,9 +67,17 @@
                             android:layout_width="25dp"
                             android:layout_height="match_parent" />
 
+                        <Spinner
+                            android:id="@+id/spinner_2"
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
                         <Space
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -78,29 +86,20 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <Space
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent" />
-
-                        <Spinner
-                            android:id="@+id/spinner_2"
-                            android:layout_width="250dp"
-                            android:layout_height="45dp"
-                            android:layout_weight="1" />
-
-                        <Space
-                            android:layout_width="25dp"
-                            android:layout_height="match_parent" />
-
                         <Button
                             android:id="@+id/button_1"
                             android:layout_width="wrap_content"
-                            android:layout_height="45dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="검색" />
 
-                        <Space
-                            android:layout_width="25dp"
-                            android:layout_height="match_parent" />
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Button" />
+
                     </LinearLayout>
 
                 </LinearLayout>
