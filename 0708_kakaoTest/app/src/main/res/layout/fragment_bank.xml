@@ -101,23 +101,23 @@
                             android:text="검색" />
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/button_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Button" />
+                            android:text="현재위치" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
+
             <net.daum.mf.map.api.MapView
                 android:id="@+id/map_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3">
-            </net.daum.mf.map.api.MapView>
+                android:layout_weight="3"></net.daum.mf.map.api.MapView>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->

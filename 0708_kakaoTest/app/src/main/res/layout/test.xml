@@ -53,12 +53,13 @@
                         android:orientation="horizontal">
 
                         <Space
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent" />
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
 
                         <Spinner
                             android:id="@+id/spinner_1"
-                            android:layout_width="150dp"
+                            android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:spinnerMode="dropdown" />
@@ -69,12 +70,18 @@
 
                         <Spinner
                             android:id="@+id/spinner_2"
-                            android:layout_width="150dp"
+                            android:layout_width="120dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1" />
 
                         <Space
                             android:layout_width="25dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/spinner_3"
+                            android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1" />
 
@@ -103,13 +110,16 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
             </LinearLayout>
 
-            <net.daum.mf.map.api.MapView
-                android:id="@+id/map_view"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3" />
+                android:layout_weight="3">
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
@@ -127,13 +137,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16sp"
                 android:textSize="24sp" />
-
         </LinearLayout>
 
         <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
@@ -143,5 +151,9 @@
             android:layout_height="300dp">
         </ListView>
     </LinearLayout>
+
+
+
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

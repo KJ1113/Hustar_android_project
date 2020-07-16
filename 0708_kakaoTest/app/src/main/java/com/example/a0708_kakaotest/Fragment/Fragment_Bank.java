@@ -33,6 +33,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private Spinner spinner_1;
     private Spinner spinner_2;
     private Spinner spinner_3;
+    private Button button_1;
     private Button button_2;
     private Make_Marker make_marker;
     ArrayAdapter<String> arrayAdapter;
@@ -43,7 +44,8 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         return view;
     }
     public void map_init(){
-        button_2 = view.findViewById(R.id.button_1);
+        button_1 = view.findViewById(R.id.button_1);
+        button_2 = view.findViewById(R.id.button_2);
         spinner_1 = view.findViewById(R.id.spinner_1);
         spinner_2 = view.findViewById(R.id.spinner_2);
         spinner_3 = view.findViewById(R.id.spinner_3);
@@ -55,6 +57,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         bankArrayListinit();
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
+        button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
         maplist = get_bankData();
@@ -75,6 +78,12 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         }
     }
     private class button2Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            make_marker.cur_pos(1);
+        }
+    }
+    private class buttonOnclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
             String city = spinner_1.getSelectedItem().toString();
@@ -108,6 +117,10 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
+
+
+
+
     private void add_maker(int i , int zoomlv){
         make_marker.add_Bank_marker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2], maplist.get(i)[3],
                 maplist.get(i)[4], maplist.get(i)[5], maplist.get(i)[6], maplist.get(i)[7],

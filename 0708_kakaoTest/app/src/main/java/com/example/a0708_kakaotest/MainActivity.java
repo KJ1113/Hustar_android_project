@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment_Bank place_SaleFragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
+    private Fragment_test testfrm;
     private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         menuFragment = new Fragment_Menu();
         use_ToFragment = new Fragment_Market();
         place_SaleFragment = new Fragment_Bank();
+        testfrm = new Fragment_test();
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frameLayout, menuFragment).commit();
@@ -66,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
                     titleText.setText("판매점 찾기");
                     break;
                 case R.id.item_4:
-                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
-                    startActivity(myIntent);
+                    transaction.replace(R.id.frameLayout, testfrm).commit();
+                    //Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
+                    //startActivity(myIntent);
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("Q&A");
                     break;

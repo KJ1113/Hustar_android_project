@@ -36,6 +36,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private Spinner spinner_1;
     private Spinner spinner_2;
     private Button button_1;
+    private Button button_2;
     private Make_Marker make_marker;
     ArrayAdapter<String> arrayAdapter;
     @Override
@@ -47,6 +48,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     }
     public void map_init(){
         button_1 = view.findViewById(R.id.button_1);
+        button_2 = view.findViewById(R.id.button_2);
         spinner_1 = view.findViewById(R.id.spinner_1);
         spinner_2 = view.findViewById(R.id.spinner_2);
         slidview = view.findViewById(R.id.slidview);
@@ -57,6 +59,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
+        button_2.setOnClickListener(new button2Onclick_Select());
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
         maplist = get_useData();
         make_marker =new Make_Marker(mMapView);
@@ -128,6 +131,12 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
             else {
                 input_mapMaker(city, dis);
             }
+        }
+    }
+    private class button2Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            make_marker.cur_pos(1);
         }
     }
     @Override
