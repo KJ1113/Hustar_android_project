@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
                     titleText.setText("판매점 찾기");
                     break;
                 case R.id.item_4:
-                    transaction.replace(R.id.frameLayout, testfrm).commit();
-                    //Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
-                    //startActivity(myIntent);
+                    //transaction.replace(R.id.frameLayout, testfrm).commit();
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://me2.do/GP4I0oAq"));
+                    startActivity(myIntent);
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("Q&A");
                     break;

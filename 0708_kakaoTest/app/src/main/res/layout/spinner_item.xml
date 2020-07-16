@@ -5,6 +5,8 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:textSize="18sp"
     android:ellipsize="marquee"
     android:textColor="#000000"
+    android:overlapAnchor="false"
     android:fontFamily="@font/nanum_bold"/>

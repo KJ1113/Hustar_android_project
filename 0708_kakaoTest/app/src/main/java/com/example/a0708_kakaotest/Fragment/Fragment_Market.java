@@ -59,9 +59,6 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         button_2 = view.findViewById(R.id.button_2);
         spinner_1 = view.findViewById(R.id.spinner_1);
 
-
-
-
         spinner_2 = view.findViewById(R.id.spinner_2);
         slidview = view.findViewById(R.id.slidview);
         listview = view.findViewById(R.id.listView);
@@ -89,10 +86,12 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     public void input_mapMaker(String city ,String dis){
         mMapView.removeAllPOIItems();
         make_marker.cur_pos(0);
+        int num=0;
         if(dis.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[5].equals(city+" ")) {
                     this.add_maker(i,8);
+                    num ++ ;
                 }
             }
         }
@@ -100,27 +99,33 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[5].equals(city+" ") && maplist.get(i)[6].equals(dis)) {
                     this.add_maker(i,6);
+                    num ++ ;
                 }
             }
+        }
+        if(num ==0 ){
+            Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
         }
     }
     public void disArrayListinit(){
         ArrayList disArrayList = new ArrayList<String>();
         disArrayList.add("시/군/구");
 
-
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
-        spinner_2.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  disArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_2.setAdapter(adapter);
     }
     private void cityArrayListinit(){
         ArrayList cityArrayList = new Return_Citys_Array().Market_cityArrayList();
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,cityArrayList);
-        spinner_1.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  cityArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_1.setAdapter(adapter);
     }
     private void inputdisArray(String city){
         ArrayList disArrayList = new Return_Citys_Array().Market_DisArrayList(city);
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
-        spinner_2.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  disArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_2.setAdapter(adapter);
     }
     private class SlidOnclick_Listener implements SlidingUpPanelLayout.OnClickListener{
         @Override

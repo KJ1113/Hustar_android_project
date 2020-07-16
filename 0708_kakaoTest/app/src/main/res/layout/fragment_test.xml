@@ -104,7 +104,7 @@
                             android:fontFamily="@font/nanum_bold"
                             android:paddingLeft="70dp"
                             android:text="검색"
-                            android:textSize="18dp" />
+                            android:textSize="15sp" />
 
                         <Button
                             android:id="@+id/button_2"
@@ -117,7 +117,7 @@
                             android:fontFamily="@font/nanum_bold"
                             android:paddingLeft="50dip"
                             android:text="현재위치"
-                            android:textSize="18dp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 

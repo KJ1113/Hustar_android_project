@@ -146,63 +146,86 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     }
     private void input_mapMaker(String city ,String dis ,String bank){
         mMapView.removeAllPOIItems();
+        int num = 0;
         if( !city.equals("") && !dis.equals("") && bank.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[2].equals(city) && maplist.get(i)[3].equals(dis)) {
                     this.add_maker(i,6);
+                    num++;
                 }
             }
             make_marker.cur_pos(0);
+            if(num ==0 ){
+                Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+            }
             return;
         }
         if( city.equals("") && dis.equals("") && !bank.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[4].equals(bank)) {
                     this.add_maker(i,9);
+                    num++;
                 }
             }
             make_marker.cur_pos(0);
+            if(num ==0 ){
+                Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+            }
             return;
         }
         if( !city.equals("") && dis.equals("") && !bank.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[2].equals(city) && maplist.get(i)[4].equals(bank)) {
                     this.add_maker(i,6);
+                    num++;
                 }
             }
             make_marker.cur_pos(0);
+            if(num ==0 ){
+                Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+            }
             return;
         }
         if( !city.equals("") && !dis.equals("") && !bank.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[2].equals(city) && maplist.get(i)[3].equals(dis) && maplist.get(i)[4].equals(bank)){
                     this.add_maker(i,5);
+                    num++;
                 }
             }
             make_marker.cur_pos(0);
+            if(num ==0 ){
+                Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+            }
             return;
         }
+
+
     }
     public void disArrayListinit(){
         ArrayList disArrayList = new ArrayList<String>();
         disArrayList.add("시/군/구");
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
-        spinner_2.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  disArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_2.setAdapter(adapter);
     }
     public void bankArrayListinit(){
         ArrayList<String> bankList = new Return_Citys_Array().Bank_ArrayListinit();
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,bankList);
-        spinner_3.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  bankList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_3.setAdapter(adapter);
     }
     public void inputdisArray(String city){
         ArrayList<String> disArrayList = new Return_Citys_Array().Bank_DisArrayList(city);
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
-        spinner_2.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  disArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_2.setAdapter(adapter);
     }
     public void cityArrayListinit(){
         ArrayList<String> cityArrayList = new Return_Citys_Array().Bank_cityArrayList();
-        arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,cityArrayList);
-        spinner_1.setAdapter(arrayAdapter);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,  cityArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner_1.setAdapter(adapter);
     }
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem ) {

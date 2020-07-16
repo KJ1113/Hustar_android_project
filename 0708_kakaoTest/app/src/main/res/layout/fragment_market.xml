@@ -35,13 +35,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="8"
+                android:layout_weight="7"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
+                    android:layout_weight="2"
                     android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
@@ -65,8 +65,8 @@
                             android:layout_width="150dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:spinnerMode="dropdown"
-                            android:overlapAnchor="false" />
+                            android:overlapAnchor="false"
+                            android:spinnerMode="dropdown" />
 
                         <Space
                             android:layout_width="25dp"
@@ -93,17 +93,29 @@
 
                         <Button
                             android:id="@+id/button_1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="검색" />
+                            android:background="#FFFFFF"
+                            android:drawableLeft="@drawable/finder"
+                            android:drawablePadding="-50dp"
+                            android:fontFamily="@font/nanum_bold"
+                            android:paddingLeft="70dp"
+                            android:text="검색"
+                            android:textSize="15sp" />
 
                         <Button
                             android:id="@+id/button_2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="현재위치" />
+                            android:background="#FFFFFF"
+                            android:drawableLeft="@drawable/location"
+                            android:drawablePadding="-50dp"
+                            android:fontFamily="@font/nanum_bold"
+                            android:paddingLeft="50dip"
+                            android:text="현재위치"
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -114,7 +126,7 @@
                 android:id="@+id/map_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3" />
+                android:layout_weight="2.2" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
