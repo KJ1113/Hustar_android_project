@@ -62,8 +62,12 @@
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+<<<<<<< HEAD
                             android:spinnerMode="dropdown"
                             android:overlapAnchor="false" />
+=======
+                            android:spinnerMode="dropdown"/>
+>>>>>>> 정훈스
 
                         <Space
                             android:layout_width="25dp"
