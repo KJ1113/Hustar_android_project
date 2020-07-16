@@ -1,13 +1,20 @@
 package com.example.a0708_kakaotest.Fragment;
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ListPopupWindow;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +29,7 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +58,10 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
         spinner_1 = view.findViewById(R.id.spinner_1);
+
+
+
+
         spinner_2 = view.findViewById(R.id.spinner_2);
         slidview = view.findViewById(R.id.slidview);
         listview = view.findViewById(R.id.listView);
@@ -60,10 +72,13 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
+        slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
         maplist = get_useData();
         make_marker =new Make_Marker(mMapView);
         make_marker.cur_pos(1);
+
+
     }
     private void add_maker(int i , int zoomlv){
         make_marker.add_Market_marker(Integer.parseInt(maplist.get(i)[0]) ,maplist.get(i)[1], maplist.get(i)[2] ,
@@ -92,6 +107,8 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     public void disArrayListinit(){
         ArrayList disArrayList = new ArrayList<String>();
         disArrayList.add("시/군/구");
+
+
         arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
         spinner_2.setAdapter(arrayAdapter);
     }
@@ -105,6 +122,16 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,disArrayList);
         spinner_2.setAdapter(arrayAdapter);
     }
+    private class SlidOnclick_Listener implements SlidingUpPanelLayout.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+                slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            }
+        }
+    }
+
+
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

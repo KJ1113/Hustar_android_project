@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
@@ -40,10 +43,14 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bank, container, false);
-        this.map_init();
+        try {
+            this.map_init();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
         return view;
     }
-    public void map_init(){
+    public void map_init() throws NoSuchFieldException {
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
         spinner_1 = view.findViewById(R.id.spinner_1);
@@ -55,6 +62,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         cityArrayListinit();
         disArrayListinit();
         bankArrayListinit();
+        slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
@@ -63,6 +71,8 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         maplist = get_bankData();
         make_marker =new Make_Marker(mMapView);
         make_marker.cur_pos(1);
+
+
     }
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
@@ -75,6 +85,14 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
 
+        }
+    }
+    private class SlidOnclick_Listener implements SlidingUpPanelLayout.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+                slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            }
         }
     }
     private class button2Onclick_Select implements Button.OnClickListener{
