@@ -8,14 +8,30 @@ import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getG
 
 public class Make_Marker {
     private MapView mMapView;
+
+    double latitude ;
+    double longitude ;
     public  Make_Marker(MapView mMapView){
         this.mMapView = mMapView;
+        latitude=0;
+        longitude=0;
     }
     public void cur_pos(int lv) {
         getGPS().getLocation();
-        double latitude =  getGPS().getLatitude();
-        double longitude = getGPS().getLongitude();
-        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+        double lat ;
+        double longt ;
+        if(latitude==0 && longitude==0){
+            lat =  getGPS().getLatitude();
+            longt = getGPS().getLongitude();
+            latitude =lat;
+            longitude =longt;
+        }
+        else{
+            lat =latitude;
+            longt = longitude;
+        }
+
+        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(lat, longt);
         MapPOIItem marker = new MapPOIItem();
         marker.setItemName("현재위치");
         marker.setTag(1);
