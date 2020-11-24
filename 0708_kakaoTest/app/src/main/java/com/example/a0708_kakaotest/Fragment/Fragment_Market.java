@@ -82,6 +82,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         make_marker =new Make_Marker(mMapView);
         make_marker.cur_pos(1);
         //test code
+        //test 2
 
 
         mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
