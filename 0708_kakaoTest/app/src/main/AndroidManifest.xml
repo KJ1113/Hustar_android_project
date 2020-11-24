@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_main_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="3e4f08fd1087213882ff815449f55248" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -26,9 +27,7 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
 
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="3e4f08fd1087213882ff815449f55248" />
+
     </application>
 
 </manifest>

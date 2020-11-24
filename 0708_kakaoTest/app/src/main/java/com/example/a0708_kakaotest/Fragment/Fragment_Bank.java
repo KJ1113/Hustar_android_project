@@ -1,7 +1,12 @@
 package com.example.a0708_kakaotest.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +20,12 @@ import android.widget.Toast;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.CustomPOIItem_Bank;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
+import com.example.a0708_kakaotest.MainActivity;
 import com.example.a0708_kakaotest.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.lang.reflect.Field;
@@ -26,8 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
+import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
-public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener{
+public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener , MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener{
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
@@ -38,6 +46,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private Spinner spinner_3;
     private Button button_1;
     private Button button_2;
+    private Button button_3;
     private Make_Marker make_marker;
     ArrayAdapter<String> arrayAdapter;
     @Override
@@ -53,6 +62,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     public void map_init() throws NoSuchFieldException {
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
+        button_3 = view.findViewById(R.id.button_3);
         spinner_1 = view.findViewById(R.id.spinner_1);
         spinner_2 = view.findViewById(R.id.spinner_2);
         spinner_3 = view.findViewById(R.id.spinner_3);
@@ -65,8 +75,12 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
+        mMapView.setCurrentLocationEventListener(this);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
+        button_3.setOnClickListener(new button3Onclick_Select());
+
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
         maplist = get_bankData();
         make_marker =new Make_Marker(mMapView);
@@ -74,6 +88,42 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
 
 
     }
+
+    @Override
+    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
+        mapReverseGeoCoder.toString();
+        onFinishReverseGeoCoding(s);
+    }
+
+    @Override
+    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
+        onFinishReverseGeoCoding("Fail");
+    }
+    private void onFinishReverseGeoCoding(String result) {
+//        Toast.makeText(LocationDemoActivity.this, "Reverse Geo-coding : " + result, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float accuracyInMeters) {
+        MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
+        //Log.i(LOG_TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
+    }
+    @Override
+    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+
+    }
+
+    @Override
+    public void onCurrentLocationUpdateFailed(MapView mapView) {
+
+    }
+
+    @Override
+    public void onCurrentLocationUpdateCancelled(MapView mapView) {
+
+    }
+
+
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -99,8 +149,22 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         @Override
         public void onClick(View view) {
             make_marker.cur_pos(1);
+
         }
     }
+    private class button3Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            if(mMapView.getCurrentLocationTrackingMode().equals(TrackingModeOnWithHeading)){
+                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+            }
+            else{
+                mMapView.setCurrentLocationTrackingMode(TrackingModeOnWithHeading);
+            }
+        }
+    }
+
+
     private class buttonOnclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {

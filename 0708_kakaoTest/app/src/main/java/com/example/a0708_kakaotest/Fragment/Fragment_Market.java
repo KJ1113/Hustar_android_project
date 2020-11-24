@@ -27,6 +27,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.lang.reflect.Field;
@@ -35,7 +36,9 @@ import java.util.List;
 
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_useData;
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
-public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener{
+import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
+
+public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener,MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
@@ -45,6 +48,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private Spinner spinner_2;
     private Button button_1;
     private Button button_2;
+    private Button button_3;
     private Make_Marker make_marker;
     ArrayAdapter<String> arrayAdapter;
     @Override
@@ -57,6 +61,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     public void map_init(){
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
+        button_3 = view.findViewById(R.id.button_3);
         spinner_1 = view.findViewById(R.id.spinner_1);
 
         spinner_2 = view.findViewById(R.id.spinner_2);
@@ -69,11 +74,16 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
+        button_3.setOnClickListener(new button3Onclick_Select());
+
         slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
         maplist = get_useData();
         make_marker =new Make_Marker(mMapView);
         make_marker.cur_pos(1);
+
+
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
 
     }
@@ -171,6 +181,17 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
             make_marker.cur_pos(1);
         }
     }
+    private class button3Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            if(mMapView.getCurrentLocationTrackingMode().equals(TrackingModeOnWithHeading)){
+                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+            }
+            else{
+                mMapView.setCurrentLocationTrackingMode(TrackingModeOnWithHeading);
+            }
+        }
+    }
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
         if(mapPOIItem instanceof CustomPOIItem_Market){
@@ -205,4 +226,16 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {}
     @Override
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) { }
+    @Override
+    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) { }
+    @Override
+    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) { }
+    @Override
+    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) { }
+    @Override
+    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) { }
+    @Override
+    public void onCurrentLocationUpdateFailed(MapView mapView) { }
+    @Override
+    public void onCurrentLocationUpdateCancelled(MapView mapView) { }
 }
