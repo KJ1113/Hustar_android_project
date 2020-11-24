@@ -93,9 +93,11 @@
                             android:layout_weight="1"
                             android:background="#FFFFFF"
                             android:drawableLeft="@drawable/finder"
-                            android:drawablePadding="-50dp"
+                            android:drawablePadding="-30dp"
                             android:fontFamily="@font/nanum_bold"
-                            android:paddingLeft="70dp"
+                            android:paddingLeft="30dp"
+
+
                             android:text="검색"
                             android:textSize="15sp" />
 
@@ -106,10 +108,25 @@
                             android:layout_weight="1"
                             android:background="#FFFFFF"
                             android:drawableLeft="@drawable/location"
-                            android:drawablePadding="-50dp"
+
+                            android:drawablePadding="-20dp"
                             android:fontFamily="@font/nanum_bold"
-                            android:paddingLeft="50dip"
+                            android:paddingLeft="20dp"
+
                             android:text="현재위치"
+                            android:textSize="15sp" />
+
+                        <Button
+                            android:id="@+id/button_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#FFFFFF"
+                            android:drawableLeft="@drawable/compass"
+                            android:drawablePadding="-30dp"
+                            android:fontFamily="@font/nanum_bold"
+                            android:paddingLeft="30dp"
+                            android:text="나침반"
                             android:textSize="15sp" />
 
                     </LinearLayout>
