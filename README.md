@@ -1,4 +1,4 @@
-# Hustar_android_project
+# android_project
 
 휴스타 
 안드로이드 프로젝트 
