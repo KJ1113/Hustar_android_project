@@ -90,6 +90,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         make_marker =new Make_Marker(mMapView);
         delete_marker = new Delete_Marker(mMapView);
         make_marker.add_Current_marker(1);
+        //?????
 
     }
 
