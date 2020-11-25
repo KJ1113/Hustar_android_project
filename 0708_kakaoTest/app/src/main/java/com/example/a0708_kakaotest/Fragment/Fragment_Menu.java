@@ -32,8 +32,6 @@ public class Fragment_Menu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_menu, container, false);
-
-
         init();
         return view;
     }
@@ -44,7 +42,6 @@ public class Fragment_Menu extends Fragment {
         list.add(new ImgDataPage(R.drawable.backimg3));
         viewPager2 = view.findViewById(R.id.viewPager);
         viewPager2.setAdapter(new ViewPagerAdapter(list));
-
 
         mIndicator = (CircleIndicator3) view.findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager2);

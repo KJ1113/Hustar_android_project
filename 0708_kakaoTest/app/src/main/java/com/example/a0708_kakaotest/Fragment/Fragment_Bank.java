@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.CustomPOIItem_Bank;
+import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Delete_Marker;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
 import com.example.a0708_kakaotest.MainActivity;
@@ -48,7 +49,8 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private Button button_2;
     private Button button_3;
     private Make_Marker make_marker;
-    ArrayAdapter<String> arrayAdapter;
+    private Delete_Marker delete_marker;
+    //ArrayAdapter<String> arrayAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bank, container, false);
@@ -72,11 +74,13 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         cityArrayListinit();
         disArrayListinit();
         bankArrayListinit();
+
+        //EventListener
         slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         mMapView.setCurrentLocationEventListener(this);
-        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
         button_3.setOnClickListener(new button3Onclick_Select());
@@ -84,45 +88,10 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
         maplist = get_bankData();
         make_marker =new Make_Marker(mMapView);
-        make_marker.cur_pos(1);
-
-
-    }
-
-    @Override
-    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-        mapReverseGeoCoder.toString();
-        onFinishReverseGeoCoding(s);
-    }
-
-    @Override
-    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-        onFinishReverseGeoCoding("Fail");
-    }
-    private void onFinishReverseGeoCoding(String result) {
-//        Toast.makeText(LocationDemoActivity.this, "Reverse Geo-coding : " + result, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float accuracyInMeters) {
-        MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
-        //Log.i(LOG_TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
-    }
-    @Override
-    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
+        delete_marker = new Delete_Marker(mMapView);
+        make_marker.add_Current_marker(1);
 
     }
-
-    @Override
-    public void onCurrentLocationUpdateFailed(MapView mapView) {
-
-    }
-
-    @Override
-    public void onCurrentLocationUpdateCancelled(MapView mapView) {
-
-    }
-
 
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
@@ -148,13 +117,15 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private class button2Onclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
-            make_marker.cur_pos(1);
-
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+            make_marker.add_Current_marker(1);
         }
     }
     private class button3Onclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+            make_marker.add_Current_marker(1);
             if(mMapView.getCurrentLocationTrackingMode().equals(TrackingModeOnWithHeading)){
                 mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
             }
@@ -163,7 +134,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
-
 
     private class buttonOnclick_Select implements Button.OnClickListener{
         @Override
@@ -199,10 +169,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
-
-
-
-
     private void add_maker(int i , int zoomlv){
         make_marker.add_Bank_marker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2], maplist.get(i)[3],
                 maplist.get(i)[4], maplist.get(i)[5], maplist.get(i)[6], maplist.get(i)[7],
@@ -218,7 +184,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
                     num++;
                 }
             }
-            make_marker.cur_pos(0);
+            make_marker.add_Current_marker(0);
             if(num ==0 ){
                 Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
             }
@@ -231,7 +197,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
                     num++;
                 }
             }
-            make_marker.cur_pos(0);
+            make_marker.add_Current_marker(0);
             if(num ==0 ){
                 Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
             }
@@ -244,7 +210,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
                     num++;
                 }
             }
-            make_marker.cur_pos(0);
+            make_marker.add_Current_marker(0);
             if(num ==0 ){
                 Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
             }
@@ -257,14 +223,12 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
                     num++;
                 }
             }
-            make_marker.cur_pos(0);
+            make_marker.add_Current_marker(0);
             if(num ==0 ){
                 Toast.makeText(getActivity(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
             }
             return;
         }
-
-
     }
     public void disArrayListinit(){
         ArrayList disArrayList = new ArrayList<String>();
@@ -302,8 +266,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         }
     }
     @Override
-    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) { }
-    @Override
     public void onMapViewInitialized(MapView mapView) { }
     @Override
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) { }
@@ -325,5 +287,19 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {}
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {}
+    @Override
+    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) { }
+    @Override
+    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) { }
+    @Override
+    public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) { }
+    @Override
+    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) { }
+    @Override
+    public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) { }
+    @Override
+    public void onCurrentLocationUpdateFailed(MapView mapView) { }
+    @Override
+    public void onCurrentLocationUpdateCancelled(MapView mapView) { }
 
 }

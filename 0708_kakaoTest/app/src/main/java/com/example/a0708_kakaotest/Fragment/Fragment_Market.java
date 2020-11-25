@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.CustomPOIItem_Market;
+import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Delete_Marker;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
 import com.example.a0708_kakaotest.R;
@@ -50,7 +51,8 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private Button button_2;
     private Button button_3;
     private Make_Marker make_marker;
-    ArrayAdapter<String> arrayAdapter;
+    private Delete_Marker delete_marker;
+    //ArrayAdapter<String> arrayAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_market, container, false);
@@ -70,25 +72,21 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         mMapView = view.findViewById(R.id.map_view);
         cityArrayListinit();
         disArrayListinit();
+
+        //EventListener
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
         button_3.setOnClickListener(new button3Onclick_Select());
-
         slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
+
         maplist = get_useData();
-        make_marker =new Make_Marker(mMapView);
-        make_marker.cur_pos(1);
-        //test code
-        //test 2
-        //test 2
-
-
+        delete_marker =new Delete_Marker(mMapView);
+        make_marker = new Make_Marker(mMapView);
+        make_marker.add_Current_marker(1);
         mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
-
-
     }
     private void add_maker(int i , int zoomlv){
         make_marker.add_Market_marker(Integer.parseInt(maplist.get(i)[0]) ,maplist.get(i)[1], maplist.get(i)[2] ,
@@ -98,7 +96,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     }
     public void input_mapMaker(String city ,String dis){
         mMapView.removeAllPOIItems();
-        make_marker.cur_pos(0);
+        make_marker.add_Current_marker(0);
         int num=0;
         if(dis.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
@@ -181,12 +179,15 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private class button2Onclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
-            make_marker.cur_pos(1);
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+            make_marker.add_Current_marker(1);
         }
     }
     private class button3Onclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+            make_marker.add_Current_marker(1);
             if(mMapView.getCurrentLocationTrackingMode().equals(TrackingModeOnWithHeading)){
                 mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
             }
