@@ -1,29 +1,27 @@
 package com.example.a0708_kakaotest.Fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.CustomPOIItem_Bank;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Delete_Marker;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
+import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Map_Range_Setting;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
 import com.example.a0708_kakaotest.MainActivity;
-import com.example.a0708_kakaotest.NoticeActivity;
 import com.example.a0708_kakaotest.R;
+import com.example.a0708_kakaotest.RegistrationDialog;
 import com.example.a0708_kakaotest.onBackPressedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import net.daum.mf.map.api.MapPOIItem;
@@ -31,14 +29,13 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
-import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
-public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener , MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener {
+public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener , MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener, Map_Range_Setting {
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
@@ -54,16 +51,21 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private Delete_Marker delete_marker;
     private long backKeyPressedTime;
     private Toast toast;
-    private MainActivity activity;
+    private MainActivity mainactivity;
 
     //ArrayAdapter<String> arrayAdapter;
+    public Make_Marker getMake_Marker(){
+        return make_marker;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bank, container, false);
-        activity = (MainActivity)getActivity();
+        mainactivity = (MainActivity)getActivity();
 
         try {
             this.map_init();
+            this.map_range_setting();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -88,7 +90,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         mMapView.setCurrentLocationEventListener(this);
-        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
         button_3.setOnClickListener(new button3Onclick_Select());
@@ -97,11 +98,30 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         maplist = get_bankData();
         make_marker =new Make_Marker(mMapView);
         delete_marker = new Delete_Marker(mMapView);
-        make_marker.add_Current_marker(1);
-        //?????
 
     }
 
+    @Override
+    public void map_range_setting() {
+        Location curlocation = new Location("point cur");
+        curlocation.setLatitude(make_marker.getCurlatitude());
+        curlocation.setLongitude(make_marker.getCurlongitude());
+        Location banklocation = new Location("point bank");
+        for(int i = 1 ; i < maplist.size() ; i++){
+            banklocation.setLatitude( Double.parseDouble(maplist.get(i)[9]));
+            banklocation.setLongitude(Double.parseDouble(maplist.get(i)[8]));
+            float distans = curlocation.distanceTo(banklocation);
+            if(1000 >= distans ){
+                this.add_maker(i,1);
+            }
+        }
+
+        if(make_marker.get_current_mapPOIItem() != null){
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+        }
+        make_marker.add_Current_marker(2);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+    }
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -119,7 +139,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         @Override
         public void onClick(View view) {
             if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
-                slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                slidview.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         }
     }
@@ -143,7 +163,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
-
     private class buttonOnclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
@@ -273,17 +292,14 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             listview.setAdapter(adapter);
             slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }else{
-            Intent intent = new Intent(getContext(), NoticeActivity.class);
-            intent.putExtra("data", "2020공공데이터 해커톤 출품작\n" +
-                    "개발자 : 윤기재\n"+"제작자 메일 : dbsrlwo1@gmail.com\n"+ "version 1.01");
-            startActivityForResult(intent,1);
+            RegistrationDialog customDialog = new RegistrationDialog(getContext(),this);
+            customDialog.callFunction();
         }
     }
     @Override
     public void BackPressed() {
-
         if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
-            slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            slidview.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
         else{
             if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
@@ -300,10 +316,8 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     }
     @Override public void onResume() {
         super.onResume();
-        activity.setOnKeyBackPressedListener(this);
+        mainactivity.setOnKeyBackPressedListener(this);
     }
-
-
     @Override
     public void onMapViewInitialized(MapView mapView) { }
     @Override

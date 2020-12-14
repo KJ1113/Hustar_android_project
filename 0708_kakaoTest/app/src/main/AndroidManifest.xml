@@ -30,7 +30,6 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".NoticeActivity" android:theme="@android:style/Theme.Dialog" />
 
-
     </application>
 
 </manifest>

@@ -13,26 +13,23 @@ public class Make_Marker {
     private CustomPOIItem_Market customPOIItem_Market;
     private CustomPOIItem_Bank customPOIItem_Bank;
 
-    double latitude ;
-    double longitude ;
+    private double curlatitude ;
+    private double curlongitude ;
     public  Make_Marker(MapView mMapView){
+        getGPS().getLocation();
         this.mMapView = mMapView;
-        latitude=0;
-        longitude=0;
+        this.curlatitude= getGPS().getLatitude();
+        this.curlongitude= getGPS().getLongitude();
     }
     public MapPOIItem get_current_mapPOIItem(){
         return current_mapPOIItem;
     }
     public void add_Current_marker(int lv) {
         getGPS().getLocation();
-        double lat ;
-        double longt ;
-        lat =  getGPS().getLatitude();
-        longt = getGPS().getLongitude();
-        latitude =lat;
-        longitude =longt;
+        curlatitude =getGPS().getLatitude();
+        curlongitude =getGPS().getLongitude();
 
-        mapPoint = MapPoint.mapPointWithGeoCoord(lat, longt);
+        mapPoint = MapPoint.mapPointWithGeoCoord(curlatitude, curlongitude);
         current_mapPOIItem = new MapPOIItem();
         current_mapPOIItem.setItemName("현재위치");
         current_mapPOIItem.setTag(1);
@@ -71,5 +68,17 @@ public class Make_Marker {
             mMapView.setMapCenterPoint(mapPoint, true);
             mMapView.setZoomLevel(ZoomLv, true);
         }
+    }
+
+    public double getCurlongitude() {
+        return curlongitude;
+    }
+
+    public void setCurlongitude(double curlongitude) {
+        this.curlongitude = curlongitude;
+    }
+
+    public double getCurlatitude() {
+        return curlatitude;
     }
 }

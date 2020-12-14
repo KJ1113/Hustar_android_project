@@ -54,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
         place_SaleFragment = new Fragment_Bank();
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frameLayout, menuFragment).commit();
+
+        transaction.replace(R.id.frameLayout, menuFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
         //getHashKey();
@@ -76,12 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 toast.show();
                 return;
             }
-            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-                finish();
-                toast.cancel();
-            }
         }
     }
+
+
 
 
 
@@ -92,17 +94,23 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             switch(menuItem.getItemId()) {
                 case R.id.item_1:
-                    transaction.replace(R.id.frameLayout, menuFragment).commit();
+                    transaction.replace(R.id.frameLayout, menuFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("온누리상품권 알리미");
                     break;
                 case R.id.item_2:
-                    transaction.replace(R.id.frameLayout,  use_ToFragment ).commit();
+                    transaction.replace(R.id.frameLayout,  use_ToFragment );
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("가맹점 찾기");
                     break;
                 case R.id.item_3:
-                    transaction.replace(R.id.frameLayout, place_SaleFragment).commit();
+                    transaction.replace(R.id.frameLayout, place_SaleFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     titleText = findViewById(R.id.titleText);
                     titleText.setText("판매점 찾기");
                     break;

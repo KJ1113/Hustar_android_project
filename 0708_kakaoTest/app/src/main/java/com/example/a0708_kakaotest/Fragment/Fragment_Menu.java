@@ -27,12 +27,13 @@ import java.util.ArrayList;
 import me.relex.circleindicator.CircleIndicator;
 import me.relex.circleindicator.CircleIndicator3;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class Fragment_Menu extends Fragment {
     private View view;
     private ViewPager2 viewPager2;
     private TextView textView2;
-    private int num_page = 3;
     CircleIndicator3 mIndicator;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +73,8 @@ public class Fragment_Menu extends Fragment {
             startActivityForResult(intent,1);
         }
     }
+
+
 
 
 

@@ -1,21 +1,16 @@
 package com.example.a0708_kakaotest.Fragment;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
+import android.location.Location;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.ListPopupWindow;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,10 +18,11 @@ import android.widget.Toast;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.CustomPOIItem_Market;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Delete_Marker;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
+import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Map_Range_Setting;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
 import com.example.a0708_kakaotest.MainActivity;
-import com.example.a0708_kakaotest.NoticeActivity;
 import com.example.a0708_kakaotest.R;
+import com.example.a0708_kakaotest.RegistrationDialog;
 import com.example.a0708_kakaotest.onBackPressedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -35,15 +31,13 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_useData;
-import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
-public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener,MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener {
+public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener,MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener , Map_Range_Setting {
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
@@ -60,6 +54,10 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private Toast toast;
     private MainActivity activity;
 
+    public Make_Marker getMake_Marker(){
+        return make_marker;
+    }
+
     //ArrayAdapter<String> arrayAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +66,8 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         activity = (MainActivity)getActivity();
 
         this.map_init();
+        this.map_range_setting();
+
         return view;
     }
     public void map_init(){
@@ -95,8 +95,6 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         maplist = get_useData();
         delete_marker =new Delete_Marker(mMapView);
         make_marker = new Make_Marker(mMapView);
-        make_marker.add_Current_marker(1);
-        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
     }
     private void add_maker(int i , int zoomlv){
         make_marker.add_Market_marker(Integer.parseInt(maplist.get(i)[0]) ,maplist.get(i)[1], maplist.get(i)[2] ,
@@ -149,41 +147,15 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         spinner_2.setAdapter(adapter);
     }
 
-    @Override
-    public void BackPressed() {
-
-        if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
-            slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-        }
-        else{
-            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-                backKeyPressedTime = System.currentTimeMillis();
-                toast = Toast.makeText(getContext(), "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
-                toast.show();
-                return;
-            }
-            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
-                getActivity().finish();
-                toast.cancel();
-            }
-        }
-    }
-    @Override public void onResume() {
-        super.onResume();
-        activity.setOnKeyBackPressedListener(this);
-    }
-
 
     private class SlidOnclick_Listener implements SlidingUpPanelLayout.OnClickListener{
         @Override
         public void onClick(View view) {
             if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
-                slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                slidview.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         }
     }
-
-
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -233,6 +205,50 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         }
     }
     @Override
+    public void map_range_setting() {
+        Location curlocation = new Location("point cur");
+        curlocation.setLatitude(make_marker.getCurlatitude());
+        curlocation.setLongitude(make_marker.getCurlongitude());
+        Location marketlocation = new Location("point mar");
+        for(int i = 1 ; i < maplist.size() ; i++){
+            marketlocation.setLatitude(Double.parseDouble(maplist.get(i)[3]));
+            marketlocation.setLongitude(Double.parseDouble(maplist.get(i)[4]));
+            float distans = curlocation.distanceTo(marketlocation);
+            if(1000 >= distans ){
+                this.add_maker(i,1);
+            }
+        }
+        if(make_marker.get_current_mapPOIItem() != null){
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+        }
+        make_marker.add_Current_marker(2);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+    }
+    @Override
+    public void BackPressed() {
+
+        if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+            slidview.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }
+        else{
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                toast = Toast.makeText(getContext(), "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                getActivity().finish();
+                toast.cancel();
+            }
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.setOnKeyBackPressedListener(this);
+    }
+    @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
         if(mapPOIItem instanceof CustomPOIItem_Market){
             CustomPOIItem_Market item = (CustomPOIItem_Market)mapPOIItem;
@@ -241,10 +257,8 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
             listview.setAdapter(adapter);
             slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }else{
-            Intent intent = new Intent(getContext(), NoticeActivity.class);
-            intent.putExtra("data", "2020공공데이터 해커톤 출품작\n" +
-                    "개발자 : 윤기재\n"+"제작자 메일 : dbsrlwo1@gmail.com\n"+ "version 1.01");
-            startActivityForResult(intent,1);
+            RegistrationDialog customDialog = new RegistrationDialog(getContext(),this);
+            customDialog.callFunction();
         }
     }
     @Override

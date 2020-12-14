@@ -10,9 +10,9 @@
     app:umanoDragView="@id/dragView"
     app:umanoScrollableView="@id/listView"
     app:umanoPanelHeight="70dp"
-    app:umanoOverlay="false"
+    app:umanoOverlay="true"
     app:umanoParallaxOffset="20dp"
-    app:umanoShadowHeight="10dp"
+    app:umanoShadowHeight="0dp"
     tools:ignore="MissingClass">
     <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
          umanoDragView 드래그 해서 보여줄 view를 선택
@@ -153,12 +153,14 @@
     <!-- 올라오는 화면을 꽉 채우고 싶다면 match_parent, 내용물 만큼만 보이고 뒷 배경이 반투명처리로 보이고 싶다면 wrap_content-->
     <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
     <LinearLayout
+
         android:id="@+id/dragView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="false"
         android:orientation="vertical"
+        android:background="@drawable/circle_backgrond"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
