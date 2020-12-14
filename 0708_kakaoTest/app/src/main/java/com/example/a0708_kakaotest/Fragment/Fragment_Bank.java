@@ -22,7 +22,9 @@ import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Delete_Marker
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
 import com.example.a0708_kakaotest.MainActivity;
+import com.example.a0708_kakaotest.NoticeActivity;
 import com.example.a0708_kakaotest.R;
+import com.example.a0708_kakaotest.onBackPressedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -36,7 +38,7 @@ import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
-public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener , MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener{
+public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener , MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener {
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
@@ -50,10 +52,16 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private Button button_3;
     private Make_Marker make_marker;
     private Delete_Marker delete_marker;
+    private long backKeyPressedTime;
+    private Toast toast;
+    private MainActivity activity;
+
     //ArrayAdapter<String> arrayAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_bank, container, false);
+        activity = (MainActivity)getActivity();
+
         try {
             this.map_init();
         } catch (NoSuchFieldException e) {
@@ -264,8 +272,38 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
             listview.setAdapter(adapter);
             slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }else{
+            Intent intent = new Intent(getContext(), NoticeActivity.class);
+            intent.putExtra("data", "2020공공데이터 해커톤 출품작\n" +
+                    "개발자 : 윤기재\n"+"제작자 메일 : dbsrlwo1@gmail.com\n"+ "version 1.01");
+            startActivityForResult(intent,1);
         }
     }
+    @Override
+    public void BackPressed() {
+
+        if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+            slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        }
+        else{
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                toast = Toast.makeText(getContext(), "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                getActivity().finish();
+                toast.cancel();
+            }
+        }
+    }
+    @Override public void onResume() {
+        super.onResume();
+        activity.setOnKeyBackPressedListener(this);
+    }
+
+
     @Override
     public void onMapViewInitialized(MapView mapView) { }
     @Override

@@ -27,16 +27,10 @@ public class Make_Marker {
         getGPS().getLocation();
         double lat ;
         double longt ;
-        if(latitude==0 && longitude==0){
-            lat =  getGPS().getLatitude();
-            longt = getGPS().getLongitude();
-            latitude =lat;
-            longitude =longt;
-        }
-        else{
-            lat =latitude;
-            longt = longitude;
-        }
+        lat =  getGPS().getLatitude();
+        longt = getGPS().getLongitude();
+        latitude =lat;
+        longitude =longt;
 
         mapPoint = MapPoint.mapPointWithGeoCoord(lat, longt);
         current_mapPOIItem = new MapPOIItem();

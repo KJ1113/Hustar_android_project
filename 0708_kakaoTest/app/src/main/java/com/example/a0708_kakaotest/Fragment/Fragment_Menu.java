@@ -1,6 +1,7 @@
 package com.example.a0708_kakaotest.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,10 +13,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.ViewHolderPage;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.ImgDataPage;
+import com.example.a0708_kakaotest.NoticeActivity;
 import com.example.a0708_kakaotest.R;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ import me.relex.circleindicator.CircleIndicator3;
 public class Fragment_Menu extends Fragment {
     private View view;
     private ViewPager2 viewPager2;
+    private TextView textView2;
     private int num_page = 3;
     CircleIndicator3 mIndicator;
     @Override
@@ -40,13 +45,15 @@ public class Fragment_Menu extends Fragment {
         list.add(new ImgDataPage(R.drawable.backimg1));
         list.add(new ImgDataPage(R.drawable.backimg2));
         list.add(new ImgDataPage(R.drawable.backimg3));
-        viewPager2 = view.findViewById(R.id.viewPager);
-        viewPager2.setAdapter(new ViewPagerAdapter(list));
+        textView2 = view.findViewById(R.id.textView2);
+        textView2.setOnClickListener(new textView2Onclick_Select());
 
         mIndicator = (CircleIndicator3) view.findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager2);
         mIndicator.createIndicators(3,0);
 
+        viewPager2 = view.findViewById(R.id.viewPager);
+        viewPager2.setAdapter(new ViewPagerAdapter(list));
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -55,6 +62,19 @@ public class Fragment_Menu extends Fragment {
             }
         });
     }
+
+    private class textView2Onclick_Select implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getContext(), NoticeActivity.class);
+            intent.putExtra("data", "2020공공데이터 해커톤 출품작\n" +
+                    "개발자 : 윤기재\n"+"제작자 메일 : dbsrlwo1@gmail.com\n"+ "version 1.01");
+            startActivityForResult(intent,1);
+        }
+    }
+
+
+
     public class ViewPagerAdapter extends RecyclerView.Adapter<ViewHolderPage> {
         private ArrayList<ImgDataPage> listData;
         ViewPagerAdapter(ArrayList<ImgDataPage> data) {

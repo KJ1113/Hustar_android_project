@@ -1,5 +1,6 @@
 package com.example.a0708_kakaotest.Fragment;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 
@@ -23,7 +24,10 @@ import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.CustomPOIItem
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Delete_Marker;
 import com.example.a0708_kakaotest.Android_Class.kakaoMapUse_Class.Make_Marker;
 import com.example.a0708_kakaotest.Android_Class.menu_FragmentUse_Class.Return_Citys_Array;
+import com.example.a0708_kakaotest.MainActivity;
+import com.example.a0708_kakaotest.NoticeActivity;
 import com.example.a0708_kakaotest.R;
+import com.example.a0708_kakaotest.onBackPressedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.daum.mf.map.api.MapPOIItem;
@@ -39,7 +43,7 @@ import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS.getGPS;
 import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
-public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener,MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
+public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener,MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener {
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
@@ -52,11 +56,17 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private Button button_3;
     private Make_Marker make_marker;
     private Delete_Marker delete_marker;
+    private long backKeyPressedTime;
+    private Toast toast;
+    private MainActivity activity;
+
     //ArrayAdapter<String> arrayAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_market, container, false);
         slidview = view.findViewById(R.id.slidview);
+        activity = (MainActivity)getActivity();
+
         this.map_init();
         return view;
     }
@@ -138,6 +148,32 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner_2.setAdapter(adapter);
     }
+
+    @Override
+    public void BackPressed() {
+
+        if(slidview.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+            slidview.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        }
+        else{
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                toast = Toast.makeText(getContext(), "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                getActivity().finish();
+                toast.cancel();
+            }
+        }
+    }
+    @Override public void onResume() {
+        super.onResume();
+        activity.setOnKeyBackPressedListener(this);
+    }
+
+
     private class SlidOnclick_Listener implements SlidingUpPanelLayout.OnClickListener{
         @Override
         public void onClick(View view) {
@@ -161,7 +197,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
 
         }
     }
-    private class buttonOnclick_Select implements Button.OnClickListener{
+    private class buttonOnclick_Select implements Button.OnClickListener{ //검색
         @Override
         public void onClick(View view) {
             String city = spinner_1.getSelectedItem().toString();
@@ -176,14 +212,14 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
             }
         }
     }
-    private class button2Onclick_Select implements Button.OnClickListener{
+    private class button2Onclick_Select implements Button.OnClickListener{ //현재위치
         @Override
         public void onClick(View view) {
             delete_marker.del_Current(make_marker.get_current_mapPOIItem());
             make_marker.add_Current_marker(1);
         }
     }
-    private class button3Onclick_Select implements Button.OnClickListener{
+    private class button3Onclick_Select implements Button.OnClickListener{ //나침반
         @Override
         public void onClick(View view) {
             delete_marker.del_Current(make_marker.get_current_mapPOIItem());
@@ -204,6 +240,11 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);
             listview.setAdapter(adapter);
             slidview.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }else{
+            Intent intent = new Intent(getContext(), NoticeActivity.class);
+            intent.putExtra("data", "2020공공데이터 해커톤 출품작\n" +
+                    "개발자 : 윤기재\n"+"제작자 메일 : dbsrlwo1@gmail.com\n"+ "version 1.01");
+            startActivityForResult(intent,1);
         }
     }
     @Override
