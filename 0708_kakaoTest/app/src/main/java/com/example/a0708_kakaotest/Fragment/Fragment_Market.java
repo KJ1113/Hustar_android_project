@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_useData;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_useData_fav;
 import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
 public class Fragment_Market extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener,MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener , Map_Range_Setting {
@@ -43,6 +44,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private View view;
     private ListView listview ;
     private List<String[]> maplist;
+    private List<String[]> maplist_fav;
     private Spinner spinner_1;
     private Spinner spinner_2;
     private Button button_1;
@@ -67,6 +69,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
 
         this.map_init();
         this.map_range_setting();
+        this.init_favMaker();
 
         return view;
     }
@@ -93,6 +96,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
 
         maplist = get_useData();
+        maplist_fav = get_useData_fav();
         delete_marker =new Delete_Marker(mMapView);
         make_marker = new Make_Marker(mMapView);
     }
@@ -102,9 +106,22 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
                 Double.parseDouble(maplist.get(i)[4]),
                 maplist.get(i)[5] ,maplist.get(i)[6],zoomlv);
     }
+    private void fav_add_maker(int i , int zoomlv){
+        make_marker.fav_add_Market_marker(Integer.parseInt(maplist_fav.get(i)[0]) ,maplist_fav.get(i)[1], maplist_fav.get(i)[2] ,
+                Double.parseDouble(maplist_fav.get(i)[3]),
+                Double.parseDouble(maplist_fav.get(i)[4]),
+                maplist_fav.get(i)[5] ,maplist_fav.get(i)[6],zoomlv);
+    }
+    private void init_favMaker(){
+        for(int i = 1 ; i < maplist_fav.size() ; i++){
+            this.fav_add_maker(i,2);
+        }
+    }
+
     public void input_mapMaker(String city ,String dis){
         mMapView.removeAllPOIItems();
         make_marker.add_Current_marker(0);
+        init_favMaker();
         int num=0;
         if(dis.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){

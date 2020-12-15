@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData;
+import static com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data.get_bankData_fav;
 import static net.daum.mf.map.api.MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading;
 
 public class Fragment_Bank extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener , MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener , onBackPressedListener, Map_Range_Setting {
@@ -40,6 +41,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private MapView mMapView;
     private View view;
     private List<String[]> maplist;
+    private List<String[]> maplist_fav;
     private ListView listview ;
     private Spinner spinner_1;
     private Spinner spinner_2;
@@ -63,15 +65,12 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         view = inflater.inflate(R.layout.fragment_bank, container, false);
         mainactivity = (MainActivity)getActivity();
 
-        try {
-            this.map_init();
-            this.map_range_setting();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        this.map_init();
+        this.map_range_setting();
+        this.init_favMaker();
         return view;
     }
-    public void map_init() throws NoSuchFieldException {
+    public void map_init() {
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
         button_3 = view.findViewById(R.id.button_3);
@@ -93,12 +92,12 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
         button_3.setOnClickListener(new button3Onclick_Select());
-
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
+
         maplist = get_bankData();
+        maplist_fav = get_bankData_fav();
         make_marker =new Make_Marker(mMapView);
         delete_marker = new Delete_Marker(mMapView);
-
     }
 
     @Override
@@ -202,9 +201,20 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
                 maplist.get(i)[4], maplist.get(i)[5], maplist.get(i)[6], maplist.get(i)[7],
                 Double.parseDouble(maplist.get(i)[9]), Double.parseDouble(maplist.get(i)[8]),zoomlv);
     }
+    private void fav_add_maker(int i , int zoomlv){
+        make_marker.fav_add_Bank_marker(Integer.parseInt(maplist_fav.get(i)[0]), maplist_fav.get(i)[2], maplist_fav.get(i)[3],
+                maplist_fav.get(i)[4], maplist_fav.get(i)[5], maplist_fav.get(i)[6], maplist_fav.get(i)[7],
+                Double.parseDouble(maplist_fav.get(i)[9]), Double.parseDouble(maplist_fav.get(i)[8]),zoomlv);
+    }
+    private void init_favMaker(){
+        for(int i = 1 ; i < maplist_fav.size() ; i++){
+                this.fav_add_maker(i,2);
+        }
+    }
     private void input_mapMaker(String city ,String dis ,String bank){
         mMapView.removeAllPOIItems();
         int num = 0;
+        init_favMaker();
         if( !city.equals("") && !dis.equals("") && bank.equals("")){
             for(int i = 1 ; i < maplist.size() ; i++){
                 if(maplist.get(i)[2].equals(city) && maplist.get(i)[3].equals(dis)) {

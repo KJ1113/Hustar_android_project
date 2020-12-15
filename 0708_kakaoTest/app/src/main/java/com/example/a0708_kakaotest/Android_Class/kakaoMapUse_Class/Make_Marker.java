@@ -54,6 +54,20 @@ public class Make_Marker {
         mMapView.setMapCenterPoint(mapPoint, true);
         mMapView.setZoomLevel(zoomlv, true);
     }
+    public void fav_add_Market_marker( int no, String name, String add, double latitude, double longitude, String city, String dis, int zoomlv){
+        mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+        customPOIItem_Market = new CustomPOIItem_Market(  no,  name,  add,  latitude,  longitude,  city,  dis);
+        customPOIItem_Market.setItemName(name);
+        customPOIItem_Market.setTag(0);
+        customPOIItem_Market.setMapPoint(mapPoint);
+        customPOIItem_Market.setMarkerType(MapPOIItem.MarkerType.RedPin);
+        customPOIItem_Market.setSelectedMarkerType(MapPOIItem.MarkerType.YellowPin);
+        mMapView.addPOIItem(customPOIItem_Market);
+        mMapView.setMapCenterPoint(mapPoint, true);
+        mMapView.setZoomLevel(zoomlv, true);
+    }
+
+
 
     public void add_Bank_marker(int no, String city, String dis,  String bankname ,String name ,String num ,String add , double latitude, double longitude  , int ZoomLv){
         mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
@@ -70,14 +84,24 @@ public class Make_Marker {
         }
     }
 
+    public void fav_add_Bank_marker(int no, String city, String dis,  String bankname ,String name ,String num ,String add , double latitude, double longitude  , int ZoomLv){
+        mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+        customPOIItem_Bank = new CustomPOIItem_Bank(  no,  city,  dis,   bankname , name , num , add ,  latitude,  longitude );
+        customPOIItem_Bank.setItemName(bankname + " ( "+name+" )");
+        customPOIItem_Bank.setTag(1);
+        customPOIItem_Bank.setMapPoint(mapPoint);
+        customPOIItem_Bank.setMarkerType(MapPOIItem.MarkerType.RedPin);
+        customPOIItem_Bank.setSelectedMarkerType(MapPOIItem.MarkerType.YellowPin);
+        mMapView.addPOIItem(customPOIItem_Bank);
+        if(ZoomLv!=0){
+            mMapView.setMapCenterPoint(mapPoint, true);
+            mMapView.setZoomLevel(ZoomLv, true);
+        }
+    }
+
     public double getCurlongitude() {
         return curlongitude;
     }
-
-    public void setCurlongitude(double curlongitude) {
-        this.curlongitude = curlongitude;
-    }
-
     public double getCurlatitude() {
         return curlatitude;
     }

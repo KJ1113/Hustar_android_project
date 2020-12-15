@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/txtText"
+            android:id="@+id/txtText_2"
             android:textSize="15sp"
             android:textColor="#000"
             android:alpha="0.87"

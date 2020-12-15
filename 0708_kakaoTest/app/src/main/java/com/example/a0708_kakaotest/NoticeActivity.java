@@ -19,7 +19,7 @@ public class NoticeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_noticepopup);
         //UI 객체생성
-        txtText = (TextView)findViewById(R.id.txtText);
+        txtText = (TextView)findViewById(R.id.txtText_2);
         //데이터 가져오기
         Intent intent = getIntent();
         String data = intent.getStringExtra("data");
