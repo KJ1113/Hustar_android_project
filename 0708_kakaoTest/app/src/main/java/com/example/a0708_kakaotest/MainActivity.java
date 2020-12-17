@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Data;
 import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_GPS;
-import com.example.a0708_kakaotest.Android_Class.Init_Calss.Init_Permisson;
 import com.example.a0708_kakaotest.Fragment.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= 23) { // 안드로이드 6.0 이상일 경우 퍼미션 체크
-            checkPermissions();
+           // checkPermissions();
         }
 
         this.init();

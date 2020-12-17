@@ -109,18 +109,13 @@ public class Init_Data {
                 bufWriter.close();
             }
 
-
-
             FileInputStream a = new FileInputStream(file);
             InputStreamReader reader = new InputStreamReader(new FileInputStream(file), Charset.forName("x-windows-949"));
             csv_use_fav = new CSVReader(reader).readAll();
-            Toast.makeText(ac, Integer.toString(csv_bank_fav.size()), Toast.LENGTH_SHORT).show();
-
+            //Toast.makeText(ac, Integer.toString(csv_bank_fav.size()), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         Toast.makeText(ac, "공공데이터를 업로드중..", Toast.LENGTH_SHORT).show();
     }
 }

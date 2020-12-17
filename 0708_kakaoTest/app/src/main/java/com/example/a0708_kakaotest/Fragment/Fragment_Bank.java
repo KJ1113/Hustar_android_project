@@ -68,6 +68,9 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         this.map_init();
         this.map_range_setting();
         this.init_favMaker();
+        make_marker.add_Current_marker(2);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+
         return view;
     }
     public void map_init() {
@@ -118,8 +121,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         if(make_marker.get_current_mapPOIItem() != null){
             delete_marker.del_Current(make_marker.get_current_mapPOIItem());
         }
-        make_marker.add_Current_marker(2);
-        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
     }
     private class spinner_1_SelectListener implements Spinner.OnItemSelectedListener{
         @Override
@@ -145,6 +146,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private class button2Onclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
+            map_range_setting();
             delete_marker.del_Current(make_marker.get_current_mapPOIItem());
             make_marker.add_Current_marker(1);
         }

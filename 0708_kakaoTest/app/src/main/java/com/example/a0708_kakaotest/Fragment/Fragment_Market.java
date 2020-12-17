@@ -70,6 +70,8 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         this.map_init();
         this.map_range_setting();
         this.init_favMaker();
+        make_marker.add_Current_marker(2);
+        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
         return view;
     }
@@ -204,6 +206,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private class button2Onclick_Select implements Button.OnClickListener{ //현재위치
         @Override
         public void onClick(View view) {
+            map_range_setting();
             delete_marker.del_Current(make_marker.get_current_mapPOIItem());
             make_marker.add_Current_marker(1);
         }
@@ -238,8 +241,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         if(make_marker.get_current_mapPOIItem() != null){
             delete_marker.del_Current(make_marker.get_current_mapPOIItem());
         }
-        make_marker.add_Current_marker(2);
-        mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+
     }
     @Override
     public void BackPressed() {
