@@ -74,10 +74,6 @@ public class Fragment_Menu extends Fragment {
         }
     }
 
-
-
-
-
     public class ViewPagerAdapter extends RecyclerView.Adapter<ViewHolderPage> {
         private ArrayList<ImgDataPage> listData;
         ViewPagerAdapter(ArrayList<ImgDataPage> data) {

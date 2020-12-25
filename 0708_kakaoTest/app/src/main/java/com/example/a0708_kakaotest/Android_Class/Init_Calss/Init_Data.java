@@ -38,7 +38,7 @@ public class Init_Data {
         return csv_use_fav;
     }
 
-    private void prepArray(Activity ac) {
+    private void BankStand_Data_init(Activity ac){
         try {
             AssetManager am = ac.getResources().getAssets() ;
             InputStream csvStream = am.open("BankStandard_data.csv");
@@ -47,6 +47,8 @@ public class Init_Data {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void MarketStand_Data_init(Activity ac){
         try {
             AssetManager am = ac.getResources().getAssets() ;
             InputStream csvStream = am.open("MarketStandard_data.csv");
@@ -55,7 +57,8 @@ public class Init_Data {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    }
+    private void BankFav_Data_init(Activity ac){
         try {
             String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/csv";
             String filename = "BankStandard_data_fav.csv";
@@ -85,8 +88,8 @@ public class Init_Data {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /////////////////////////////////////////////////////////////////////////
-
+    }
+    private void MarketFav_Data_init(Activity ac){
         try {
 
             String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/csv";
@@ -116,6 +119,13 @@ public class Init_Data {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void prepArray(Activity ac) {
+        BankStand_Data_init(ac);
+        MarketStand_Data_init(ac);
+        BankFav_Data_init(ac);
+        MarketFav_Data_init(ac);
         Toast.makeText(ac, "공공데이터를 업로드중..", Toast.LENGTH_SHORT).show();
     }
 }

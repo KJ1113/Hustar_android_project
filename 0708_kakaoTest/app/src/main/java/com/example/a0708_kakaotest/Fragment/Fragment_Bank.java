@@ -42,7 +42,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
     private View view;
     private List<String[]> maplist;
     private List<String[]> maplist_fav;
-    private ListView listview ;
+    private ListView listview;
     private Spinner spinner_1;
     private Spinner spinner_2;
     private Spinner spinner_3;
@@ -77,6 +77,7 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
         button_3 = view.findViewById(R.id.button_3);
+
         spinner_1 = view.findViewById(R.id.spinner_1);
         spinner_2 = view.findViewById(R.id.spinner_2);
         spinner_3 = view.findViewById(R.id.spinner_3);
@@ -143,27 +144,6 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
-    private class button2Onclick_Select implements Button.OnClickListener{
-        @Override
-        public void onClick(View view) {
-            map_range_setting();
-            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
-            make_marker.add_Current_marker(1);
-        }
-    }
-    private class button3Onclick_Select implements Button.OnClickListener{
-        @Override
-        public void onClick(View view) {
-            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
-            make_marker.add_Current_marker(1);
-            if(mMapView.getCurrentLocationTrackingMode().equals(TrackingModeOnWithHeading)){
-                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
-            }
-            else{
-                mMapView.setCurrentLocationTrackingMode(TrackingModeOnWithHeading);
-            }
-        }
-    }
     private class buttonOnclick_Select implements Button.OnClickListener{
         @Override
         public void onClick(View view) {
@@ -198,6 +178,30 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
+
+
+    private class button2Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            map_range_setting();
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+            make_marker.add_Current_marker(1);
+        }
+    }
+    private class button3Onclick_Select implements Button.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            delete_marker.del_Current(make_marker.get_current_mapPOIItem());
+            make_marker.add_Current_marker(1);
+            if(mMapView.getCurrentLocationTrackingMode().equals(TrackingModeOnWithHeading)){
+                mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+            }
+            else{
+                mMapView.setCurrentLocationTrackingMode(TrackingModeOnWithHeading);
+            }
+        }
+    }
+
     private void add_maker(int i , int zoomlv){
         make_marker.add_Bank_marker(Integer.parseInt(maplist.get(i)[0]), maplist.get(i)[2], maplist.get(i)[3],
                 maplist.get(i)[4], maplist.get(i)[5], maplist.get(i)[6], maplist.get(i)[7],
@@ -326,7 +330,8 @@ public class Fragment_Bank extends Fragment implements MapView.MapViewEventListe
             }
         }
     }
-    @Override public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         mainactivity.setOnKeyBackPressedListener(this);
     }

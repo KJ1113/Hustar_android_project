@@ -42,9 +42,9 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private SlidingUpPanelLayout slidview;
     private MapView mMapView;
     private View view;
-    private ListView listview ;
     private List<String[]> maplist;
     private List<String[]> maplist_fav;
+    private ListView listview;
     private Spinner spinner_1;
     private Spinner spinner_2;
     private Button button_1;
@@ -79,8 +79,8 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         button_1 = view.findViewById(R.id.button_1);
         button_2 = view.findViewById(R.id.button_2);
         button_3 = view.findViewById(R.id.button_3);
-        spinner_1 = view.findViewById(R.id.spinner_1);
 
+        spinner_1 = view.findViewById(R.id.spinner_1);
         spinner_2 = view.findViewById(R.id.spinner_2);
         slidview = view.findViewById(R.id.slidview);
         listview = view.findViewById(R.id.listView);
@@ -89,12 +89,12 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         disArrayListinit();
 
         //EventListener
+        slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         mMapView.setMapViewEventListener(this);
         mMapView.setPOIItemEventListener(this);
         button_1.setOnClickListener(new buttonOnclick_Select());
         button_2.setOnClickListener(new button2Onclick_Select());
         button_3.setOnClickListener(new button3Onclick_Select());
-        slidview.setFadeOnClickListener(new SlidOnclick_Listener());
         spinner_1.setOnItemSelectedListener(new spinner_1_SelectListener());
 
         maplist = get_useData();
@@ -267,6 +267,10 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
         super.onResume();
         activity.setOnKeyBackPressedListener(this);
     }
+
+
+
+
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
         if(mapPOIItem instanceof CustomPOIItem_Market){

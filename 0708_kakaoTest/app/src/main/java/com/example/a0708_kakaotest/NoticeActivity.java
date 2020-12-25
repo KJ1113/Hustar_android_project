@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 public class NoticeActivity extends Activity {
     TextView txtText;
+    TextView notice_text;
 
 
     @Override
@@ -20,10 +21,18 @@ public class NoticeActivity extends Activity {
         setContentView(R.layout.activity_noticepopup);
         //UI 객체생성
         txtText = (TextView)findViewById(R.id.txtText_2);
+        notice_text =(TextView)findViewById(R.id.notice_text);
         //데이터 가져오기
         Intent intent = getIntent();
         String data = intent.getStringExtra("data");
+        String data2 = intent.getStringExtra("data2");
         txtText.setText(data);
+
+        if(data2==null){
+            notice_text.setText("notice");
+        }else{
+            notice_text.setText(data2);
+        }
     }
 
     //확인 버튼 클릭

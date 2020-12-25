@@ -31,25 +31,18 @@ public class SplashActivity extends Activity {
             if (Build.VERSION.SDK_INT >= 23) { // 안드로이드 6.0 이상일 경우 퍼미션 체크
                 ok = checkPermissions();
             }
-
             if(ok){
-                Thread.sleep(2000);
                 startActivity(new Intent(this,MainActivity.class));
                 this.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 finish();
             }
             else{
-                checkPermissions();
-
+                finish();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
-
-
-
 
     private boolean checkPermissions() throws InterruptedException {
         int result;
@@ -60,14 +53,11 @@ public class SplashActivity extends Activity {
                 permissionList.add(pm);
             }
         }
+        Thread.sleep(2000);
         if (!permissionList.isEmpty()) {
             ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
             return false;
         }
-        Thread.sleep(2000);
-        startActivity(new Intent(this,MainActivity.class));
-        this.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        finish();
         return true;
     }
 
@@ -91,7 +81,6 @@ public class SplashActivity extends Activity {
         }
 
     }
-
     private void showToast_PermissionDeny() {
         Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
         finish();
