@@ -18,8 +18,6 @@ import com.example.Onnuri_Alerts.Android_Class.Init_Calss.Init_Data;
 import com.example.Onnuri_Alerts.Android_Class.Init_Calss.Init_GPS;
 import com.example.Onnuri_Alerts.Fragment.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-
 public class MainActivity extends AppCompatActivity {
     private Fragment_Menu menuFragment;
     private Fragment_Market use_ToFragment;
@@ -36,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
     private static final int MULTIPLE_PERMISSIONS = 101;  //
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-
     }
     private void showToast_PermissionDeny() {
         Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
