@@ -265,7 +265,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     public void onResume() {
         super.onResume();
         activity.setOnKeyBackPressedListener(this);
-    }
+    }//
 
 
 
