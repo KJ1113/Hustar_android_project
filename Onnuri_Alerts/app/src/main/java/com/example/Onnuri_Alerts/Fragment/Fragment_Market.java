@@ -116,7 +116,7 @@ public class Fragment_Market extends Fragment implements MapView.MapViewEventLis
     private void init_favMaker(){
         for(int i = 1 ; i < maplist_fav.size() ; i++){
             this.fav_add_maker(i,2);
-        }
+        }//
     }
 
     public void input_mapMaker(String city ,String dis){
