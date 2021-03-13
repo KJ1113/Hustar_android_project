@@ -18,5 +18,5 @@
 <img src="https://user-images.githubusercontent.com/37038119/110209013-8b931600-7ecd-11eb-9279-1cfff32a10c2.png" width="500"  height="500">
 <img src="https://user-images.githubusercontent.com/37038119/110209017-964dab00-7ecd-11eb-9a77-3ac850ff0664.png" width="500"  height="500">
 
-# 다운로드 링크
+# 다운로드 링크(APK 파일, 모바일 권장)
 https://drive.google.com/file/d/1ZjlD1ywtflVUOmMAPTyJ41T9Im7W97NJ/view?usp=sharing
